@@ -1,4 +1,4 @@
-/* Main JavaScript for Rhyll Static Site */
+/* Main JavaScript for Rhyl Static Site */
 
 // Shared Logic
 document.addEventListener('alpine:init', () => {
@@ -41,10 +41,10 @@ document.addEventListener('alpine:init', () => {
             this.cartCount = this.cart.reduce((total, item) => total + item.quantity, 0);
         },
         saveCart() {
-            localStorage.setItem('rhyll_cart', JSON.stringify(this.cart));
+            localStorage.setItem('rhyl_cart', JSON.stringify(this.cart));
         },
         loadCart() {
-            const savedCart = localStorage.getItem('rhyll_cart');
+            const savedCart = localStorage.getItem('rhyl_cart');
             if (savedCart) {
                 this.cart = JSON.parse(savedCart);
                 this.updateCartCount();
@@ -64,10 +64,10 @@ document.addEventListener('alpine:init', () => {
             this.wishlistCount = this.wishlist.length;
         },
         saveWishlist() {
-            localStorage.setItem('rhyll_wishlist', JSON.stringify(this.wishlist));
+            localStorage.setItem('rhyl_wishlist', JSON.stringify(this.wishlist));
         },
         loadWishlist() {
-            const savedWishlist = localStorage.getItem('rhyll_wishlist');
+            const savedWishlist = localStorage.getItem('rhyl_wishlist');
             if (savedWishlist) {
                 this.wishlist = JSON.parse(savedWishlist);
                 this.updateWishlistCount();
@@ -158,7 +158,7 @@ document.addEventListener('alpine:init', () => {
                 const hasBeverage = lp.some(p => p.category === 'Beverages');
 
                 if (hasBrokenImages || !hasProduce || !hasBeverage) {
-                    console.log('Rhyll: Repairing product catalog integrity...');
+                    console.log('Rhyl: Repairing product catalog integrity...');
 
                     // Verified Clean Data Source
                     const cleanProduce = [
