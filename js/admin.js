@@ -64,6 +64,13 @@ function logout() {
     location.reload();
 }
 
+window.toggleMobileSidebar = function () {
+    const sidebar = document.getElementById('admin-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (sidebar) sidebar.classList.toggle('mobile-show');
+    if (overlay) overlay.classList.toggle('show');
+};
+
 // --- NAVIGATION ---
 window.switchTab = function (tabId) {
     document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
@@ -92,6 +99,12 @@ window.switchTab = function (tabId) {
     if (tabId === 'roles') renderAdminRoles();
     if (tabId === 'cms') renderAdminCMS();
     if (tabId === 'settings') renderAdminSettings();
+
+    // Close sidebar on mobile after selection
+    const sidebar = document.getElementById('admin-sidebar');
+    if (window.innerWidth <= 1024 && sidebar && sidebar.classList.contains('mobile-show')) {
+        toggleMobileSidebar();
+    }
 };
 
 // --- CORE MODULES ---

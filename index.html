@@ -154,16 +154,16 @@
                                 </span>
                                 <span x-text="slide.subtitle"></span>
                             </div>
-                            <h1 class="text-6xl md:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter"
+                            <h1 class="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter"
                                 x-html="slide.title.replace('Lifestyle', `<span class='gradient-text'>Lifestyle</span>`).replace('Freshness', `<span class='text-amber-500 font-serif italic font-normal'>Freshness</span>`).replace('Scent', `<span class='text-indigo-600 font-serif italic font-normal'>Scent</span>`)">
                             </h1>
-                            <p class="text-xl text-slate-500 leading-relaxed max-w-lg" x-text="slide.desc"></p>
+                            <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-lg" x-text="slide.desc"></p>
                             <div class="flex flex-col sm:flex-row gap-5">
                                 <a href="index.html"
-                                    class="bg-slate-900 text-white px-10 py-5 rounded-3xl hover:bg-blue-600 transition-all font-bold text-xl text-center shadow-2xl shadow-slate-900/10"
+                                    class="bg-slate-900 text-white px-8 md:px-10 py-4 md:py-5 rounded-3xl hover:bg-blue-600 transition-all font-bold text-lg md:text-xl text-center shadow-2xl shadow-slate-900/10"
                                     x-text="slide.cta"></a>
                                 <a href="signup.html"
-                                    class="bg-white border-2 border-slate-100 text-slate-900 px-10 py-5 rounded-3xl hover:border-slate-900 transition-all font-bold text-xl text-center flex items-center justify-center gap-2">
+                                    class="bg-white border-2 border-slate-100 text-slate-900 px-8 md:px-10 py-4 md:py-5 rounded-3xl hover:border-slate-900 transition-all font-bold text-lg md:text-xl text-center flex items-center justify-center gap-2">
                                     Join Community
                                 </a>
                             </div>
@@ -342,7 +342,7 @@
             <div class="flex gap-8 overflow-x-auto no-scrollbar snap-x pb-8 px-2 -mx-2">
                 <template x-for="product in $data[section.data]" :key="product.id">
                     <div
-                        class="product-card min-w-[300px] bg-white rounded-[2rem] border border-slate-100 overflow-hidden flex flex-col snap-start">
+                        class="product-card min-w-[260px] sm:min-w-[300px] bg-white rounded-[2rem] border border-slate-100 overflow-hidden flex flex-col snap-start">
                         <div
                             class="image-zoom-container relative h-64 bg-slate-50 flex items-center justify-center p-8">
                             <div class="absolute top-4 left-4 z-10">
