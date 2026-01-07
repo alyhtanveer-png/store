@@ -20,7 +20,7 @@
     <!-- <script src="js/admin.js"></script> -->
 </head>
 
-<body class="bg-slate-50 text-slate-900 overflow-x-hidden" x-data="indexPage">
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden" x-data="indexPage" x-on:click.away="dropdownOpen = false">
 
     <!-- Header -->
     <header class="sticky top-0 z-50 glass border-b border-slate-200/50">
@@ -45,15 +45,44 @@
                 <!-- Right Section -->
                 <div class="flex items-center gap-6">
                     <!-- Desktop Navigation -->
-                    <nav class="hidden lg:flex items-center gap-8">
+                    <nav class="hidden lg:flex items-center gap-6">
                         <a href="index.html"
                             class="nav-link text-slate-600 hover:text-blue-600 transition font-medium">Shop</a>
+                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true"
+                            @mouseleave="open = false">
+                            <button
+                                class="nav-link text-slate-600 hover:text-blue-600 transition font-medium flex items-center gap-1">
+                                World Market <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"
+                                    :class="open ? 'rotate-180' : ''"></i>
+                            </button>
+                            <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 translate-y-2"
+                                x-transition:enter-end="opacity-100 translate-y-0"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 translate-y-0"
+                                x-transition:leave-end="opacity-0 translate-y-2"
+                                class="absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 z-[60] mt-2">
+                                <a href="#pakistani-products"
+                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Pakistani
+                                    Product</a>
+                                <a href="#indian-products"
+                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Indian
+                                    Product</a>
+                                <a href="#african-products"
+                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">African
+                                    Product</a>
+                                <a href="#phillipian-products"
+                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Phillipian
+                                    Product</a>
+                            </div>
+                        </div>
+
                         <template x-if="isLoggedIn">
-                            <div class="flex items-center gap-8">
+                            <div class="flex items-center gap-6">
                                 <template x-if="isAdminLoggedIn">
                                     <a href="admin.html"
-                                        class="bg-teal-600 text-white px-4 py-2 rounded-xl hover:bg-teal-700 transition-all font-semibold flex items-center gap-2">
-                                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+                                        class="bg-teal-600 text-white px-3 py-1.5 rounded-xl hover:bg-teal-700 transition-all font-semibold flex items-center gap-2 text-sm">
+                                        <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> Dashboard
                                     </a>
                                 </template>
                                 <a href="#" class="nav-link text-slate-600 hover:text-blue-600 transition font-medium"
@@ -65,12 +94,11 @@
                             </div>
                         </template>
                         <template x-if="!isLoggedIn">
-                            <div class="flex items-center gap-8">
+                            <div class="flex items-center gap-6">
                                 <a href="login.html"
                                     class="nav-link text-slate-600 hover:text-blue-600 transition font-medium">Login</a>
                                 <a href="signup.html"
-                                    class="bg-blue-600 text-white px-6 py-2.5 rounded-xl hover:bg-blue-700 transition-all font-semibold shadow-lg shadow-blue-500/25">Join
-                                    Now</a>
+                                    class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all font-semibold shadow-lg shadow-blue-500/25">Join</a>
                             </div>
                         </template>
                     </nav>
@@ -112,6 +140,16 @@
             <nav class="space-y-1">
                 <a href="index.html"
                     class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Shop</a>
+                <a href="#pakistani-products" @click="mobileMenuOpen = false"
+                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Pakistani
+                    Product</a>
+                <a href="#indian-products" @click="mobileMenuOpen = false"
+                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Indian Product</a>
+                <a href="#african-products" @click="mobileMenuOpen = false"
+                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">African Product</a>
+                <a href="#phillipian-products" @click="mobileMenuOpen = false"
+                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Phillipian
+                    Product</a>
                 <template x-if="isLoggedIn">
                     <div class="space-y-1">
                         <a href="#" class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium"
@@ -134,8 +172,8 @@
     </header>
 
     <!-- Premium Hero Slider -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative overflow-hidden">
-        <div class="relative h-[700px] md:h-[600px] w-full">
+    <section class="w-full relative overflow-hidden">
+        <div class="relative h-[850px] sm:h-[700px] md:h-[600px] w-full">
             <template x-for="(slide, index) in heroSlides" :key="slide.id">
                 <div x-show="heroSliderIndex === index" x-transition:enter="transition ease-out duration-1000"
                     x-transition:enter-start="opacity-0 translate-y-12 scale-95"
@@ -143,51 +181,58 @@
                     x-transition:leave="transition ease-in duration-500"
                     x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-105"
                     class="absolute inset-0">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center h-full">
-                        <div class="space-y-10 order-2 lg:order-1">
-                            <div
-                                :class="`inline-flex items-center gap-2 px-4 py-2 bg-${slide.accent}-50 text-${slide.accent}-700 rounded-full text-sm font-semibold border border-${slide.accent}-100`">
-                                <span class="relative flex h-2 w-2">
-                                    <span
-                                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-current"></span>
-                                </span>
-                                <span x-text="slide.subtitle"></span>
-                            </div>
-                            <h1 class="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter"
-                                x-html="slide.title.replace('Lifestyle', `<span class='gradient-text'>Lifestyle</span>`).replace('Freshness', `<span class='text-amber-500 font-serif italic font-normal'>Freshness</span>`).replace('Scent', `<span class='text-indigo-600 font-serif italic font-normal'>Scent</span>`)">
-                            </h1>
-                            <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-lg" x-text="slide.desc">
-                            </p>
-                            <div class="flex flex-col sm:flex-row gap-5">
-                                <a href="index.html"
-                                    class="bg-slate-900 text-white px-8 md:px-10 py-4 md:py-5 rounded-3xl hover:bg-blue-600 transition-all font-bold text-lg md:text-xl text-center shadow-2xl shadow-slate-900/10"
-                                    x-text="slide.cta"></a>
-                                <a href="signup.html"
-                                    class="bg-white border-2 border-slate-100 text-slate-900 px-8 md:px-10 py-4 md:py-5 rounded-3xl hover:border-slate-900 transition-all font-bold text-lg md:text-xl text-center flex items-center justify-center gap-2">
-                                    Join Community
-                                </a>
-                            </div>
-                        </div>
-                        <div class="relative order-1 lg:order-2 h-full py-8 md:py-0">
-                            <div :class="`absolute -inset-10 bg-${slide.accent}-500/5 rounded-[5rem] blur-3xl`"></div>
-                            <div class="relative h-full flex items-center justify-center">
+                    <div :class="`bg-${slide.accent}-50/30`" class="absolute inset-0 transition-colors duration-1000">
+                    </div>
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full relative">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center h-full py-12 md:py-20">
+                            <div class="space-y-10 order-2 lg:order-1">
                                 <div
-                                    class="bg-white p-4 rounded-[3rem] shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700 h-full w-full overflow-hidden">
-                                    <img :src="slide.image" :alt="slide.title"
-                                        class="w-full h-full object-cover rounded-[2.5rem]">
+                                    :class="`inline-flex items-center gap-2 px-4 py-2 bg-${slide.accent}-50 text-${slide.accent}-700 rounded-full text-sm font-semibold border border-${slide.accent}-100`">
+                                    <span class="relative flex h-2 w-2">
+                                        <span
+                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75"></span>
+                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-current"></span>
+                                    </span>
+                                    <span x-text="slide.subtitle"></span>
                                 </div>
-                                <!-- Floating Badge -->
-                                <div
-                                    class="absolute top-1/2 -right-8 -translate-y-1/2 bg-white p-6 rounded-3xl shadow-xl hidden md:flex items-center gap-4 animate-bounce-slow">
+                                <h1 class="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter"
+                                    x-html="slide.title.replace('Lifestyle', `<span class='gradient-text'>Lifestyle</span>`).replace('Freshness', `<span class='text-amber-500 font-serif italic font-normal'>Freshness</span>`).replace('Scent', `<span class='text-indigo-600 font-serif italic font-normal'>Scent</span>`)">
+                                </h1>
+                                <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-lg"
+                                    x-text="slide.desc">
+                                </p>
+                                <div class="flex flex-col sm:flex-row gap-5">
+                                    <a href="index.html"
+                                        class="bg-blue-600 text-white px-8 md:px-12 py-4 md:py-5 rounded-[2rem] hover:bg-blue-700 transition-all font-black text-lg md:text-xl text-center shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95"
+                                        x-text="slide.cta"></a>
+                                    <a href="signup.html"
+                                        class="bg-white/80 backdrop-blur-md border-2 border-white text-slate-900 px-8 md:px-12 py-4 md:py-5 rounded-[2rem] hover:bg-white hover:border-blue-600 transition-all font-black text-lg md:text-xl text-center flex items-center justify-center gap-2 shadow-lg hover:scale-105 active:scale-95">
+                                        Join Community
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="relative order-1 lg:order-2 h-full py-8 md:py-0">
+                                <div :class="`absolute -inset-10 bg-${slide.accent}-500/5 rounded-[5rem] blur-3xl`">
+                                </div>
+                                <div class="relative h-full flex items-center justify-center">
                                     <div
-                                        :class="`w-12 h-12 bg-${slide.accent}-100 text-${slide.accent}-600 rounded-xl flex items-center justify-center`">
-                                        <i data-lucide="award" class="w-6 h-6"></i>
+                                        class="bg-white p-4 rounded-[3rem] shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700 h-full w-full overflow-hidden">
+                                        <img :src="slide.image" :alt="slide.title"
+                                            class="w-full h-full object-cover rounded-[2.5rem]">
                                     </div>
-                                    <div class="text-left">
-                                        <p class="text-xs text-slate-400 font-black uppercase tracking-widest">Premium
-                                            Choice</p>
-                                        <p class="text-lg font-black text-slate-900">Top Verified</p>
+                                    <!-- Floating Badge -->
+                                    <div
+                                        class="absolute top-1/2 -right-8 -translate-y-1/2 bg-white p-6 rounded-3xl shadow-xl hidden md:flex items-center gap-4 animate-bounce-slow">
+                                        <div
+                                            :class="`w-12 h-12 bg-${slide.accent}-100 text-${slide.accent}-600 rounded-xl flex items-center justify-center`">
+                                            <i data-lucide="award" class="w-6 h-6"></i>
+                                        </div>
+                                        <div class="text-left">
+                                            <p class="text-xs text-slate-400 font-black uppercase tracking-widest">
+                                                Premium
+                                                Choice</p>
+                                            <p class="text-lg font-black text-slate-900">Top Verified</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +266,7 @@
             next() { this.sliderIndex = (this.sliderIndex + 1) % this.sliderProducts.length }
         }">
             <!-- Main Slider -->
-            <div class="relative h-[600px] md:h-[500px] overflow-hidden">
+            <div class="relative min-h-[750px] md:h-[500px] overflow-hidden">
                 <template x-for="(product, index) in sliderProducts" :key="product.id">
                     <div x-show="sliderIndex === index" x-transition:enter="transition ease-out duration-1000"
                         x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
@@ -271,7 +316,8 @@
             </div>
 
             <!-- Controls -->
-            <div class="absolute bottom-10 left-10 md:left-16 flex items-center gap-4 z-10">
+            <div
+                class="absolute bottom-6 left-1/2 -translate-x-1/2 md:left-16 md:translate-x-0 bottom-8 md:bottom-10 flex items-center gap-4 z-10">
                 <button @click="prev()"
                     class="w-12 h-12 bg-white/90 glass border border-slate-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-lg text-slate-900">
                     <i data-lucide="chevron-left" class="w-6 h-6"></i>
@@ -295,14 +341,16 @@
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             <template x-for="cat in [
-                { name: 'Grocery', id: 'grocery-products', icon: 'shopping-basket' },
-                { name: 'Produce', id: 'produce-products', icon: 'apple' },
-                { name: 'Bakery', id: 'bakery-products', icon: 'croissant' },
-                { name: 'Beverages', id: 'beverage-products', icon: 'coffee' },
-                { name: 'Baby Care', id: 'baby-products', icon: 'baby' },
-                { name: 'Perfumes', id: 'perfume-products', icon: 'sparkles' },
-                { name: 'Dairy', id: 'grocery-products', icon: 'milk' },
-                { name: 'Beauty', id: 'health-beauty-products', icon: 'flower-2' }
+                { name: 'Fresh Produce', id: 'fresh-produce', icon: 'apple' },
+                { name: 'Grocery & Staples', id: 'grocery-staples', icon: 'wheat' },
+                { name: 'Spices & Masala', id: 'spices-masala', icon: 'flame' },
+                { name: 'Dairy Products', id: 'dairy-products', icon: 'milk' },
+                { name: 'Meat & Frozen', id: 'meat-frozen', icon: 'snowflake' },
+                { name: 'Packaged Food', id: 'packaged-canned', icon: 'package' },
+                { name: 'Snacks & Bakery', id: 'snacks-bakery', icon: 'croissant' },
+                { name: 'Beverages', id: 'beverages', icon: 'coffee' },
+                { name: 'Household', id: 'household-cleaning', icon: 'home' },
+                { name: 'Personal Care', id: 'personal-care', icon: 'smile' }
             ]" :key="cat.name">
                 <a :href="'#' + cat.id"
                     class="group bg-white p-6 rounded-3xl border border-slate-100 text-center hover:border-blue-500/30 hover:shadow-xl hover:shadow-blue-500/5 transition-all scroll-smooth">
@@ -319,76 +367,313 @@
 
     <!-- Product Sections Generic Template -->
     <template x-for="section in [
-        { title: 'Fresh Produce', data: 'produceProducts', color: 'emerald', id: 'produce-products' },
-        { title: 'Grocery Essentials', data: 'groceryProducts', color: 'blue', id: 'grocery-products' },
-        { title: 'Fresh Bakery', data: 'bakeryProducts', color: 'amber', id: 'bakery-products' },
-        { title: 'Gourmet Beverages', data: 'beverageProducts', color: 'orange', id: 'beverage-products' },
-        { title: 'Baby Care', data: 'babyProducts', color: 'rose', id: 'baby-products' },
-        { title: 'Health & Beauty', data: 'healthBeautyProducts', color: 'rose', id: 'health-beauty-products' },
-        { title: 'Premium Perfumes', data: 'perfumeProducts', color: 'indigo', id: 'perfume-products' }
+        { title: 'Fresh Produce', data: 'freshProduce', color: 'green', id: 'fresh-produce' },
+        { title: 'Grocery & Staples', data: 'groceryStaples', color: 'amber', id: 'grocery-staples' },
+        { title: 'Spices & Masala', data: 'spicesMasala', color: 'red', id: 'spices-masala' },
+        { title: 'Dairy Products', data: 'dairyProducts', color: 'blue', id: 'dairy-products' },
+        { title: 'Meat & Frozen Foods', data: 'meatFrozen', color: 'rose', id: 'meat-frozen' },
+        { title: 'Packaged & Canned Foods', data: 'packagedCanned', color: 'orange', id: 'packaged-canned' },
+        { title: 'Snacks & Bakery', data: 'snacksBakery', color: 'yellow', id: 'snacks-bakery' },
+        { title: 'Beverages', data: 'beverages', color: 'teal', id: 'beverages' },
+        { title: 'Household & Cleaning', data: 'householdCleaning', color: 'slate', id: 'household-cleaning' },
+        { title: 'Personal Care', data: 'personalCare', color: 'purple', id: 'personal-care' }
     ]" :key="section.title">
-        <section :id="section.id" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 overflow-hidden scroll-mt-24">
-            <div class="flex items-end justify-between mb-12">
-                <div class="space-y-2">
-                    <div :class="`h-1 w-12 bg-${section.color}-500 rounded-full`"></div>
-                    <h2 class="text-3xl md:text-4xl font-black text-slate-900" x-text="section.title"></h2>
+        <div>
+            <section :id="section.id" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 overflow-hidden scroll-mt-24">
+                <div class="flex items-end justify-between mb-12">
+                    <div class="space-y-2">
+                        <div :class="`h-1 w-12 bg-${section.color}-500 rounded-full`"></div>
+                        <h2 class="text-3xl md:text-4xl font-black text-slate-900" x-text="section.title"></h2>
+                    </div>
+                    <a href="#"
+                        class="group flex items-center gap-2 font-bold text-slate-400 hover:text-blue-600 transition-colors">
+                        Explore All <i data-lucide="arrow-right"
+                            class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
                 </div>
-                <a href="#"
-                    class="group flex items-center gap-2 font-bold text-slate-400 hover:text-blue-600 transition-colors">
-                    Explore All <i data-lucide="arrow-right"
-                        class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                </a>
-            </div>
 
-            <div class="flex gap-8 overflow-x-auto no-scrollbar snap-x pb-8 px-2 -mx-2">
-                <template x-for="product in $data[section.data]" :key="product.id">
-                    <div
-                        class="product-card min-w-[260px] sm:min-w-[300px] bg-white rounded-[2rem] border border-slate-100 overflow-hidden flex flex-col snap-start">
+                <div class="flex gap-8 overflow-x-auto no-scrollbar snap-x pb-8 px-2 -mx-2">
+                    <template x-for="product in $data[section.data]" :key="product.id">
                         <div
-                            class="image-zoom-container relative h-64 bg-slate-50 flex items-center justify-center p-8">
-                            <div class="absolute top-4 left-4 z-10">
-                                <span
-                                    class="bg-white/80 glass px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-slate-900 border border-white"
-                                    x-text="'ID: #' + product.id"></span>
-                            </div>
-                            <img :src="product.image" :alt="product.name"
-                                class="max-w-full max-h-full object-contain drop-shadow-xl ">
-                            <div class="absolute top-4 right-4 z-10 flex flex-col gap-2">
-                                <button @click.stop="toggleWishlist(product)"
-                                    class="p-2 bg-white/80 glass rounded-full hover:text-red-500 transition-all ring-1 ring-slate-100"
-                                    :class="isInWishlist(product.id) ? 'text-red-500 fill-red-500' : 'text-slate-600'">
-                                    <i data-lucide="heart" class="w-4 h-4"></i>
-                                </button>
-                                <button @click.stop="openShareModal(product.name)"
-                                    class="p-2 bg-white/80 glass rounded-full text-slate-600 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all ring-1 ring-slate-100">
-                                    <i data-lucide="share-2" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="p-8 flex flex-col flex-1 space-y-4">
-                            <div class="flex justify-between items-start gap-4">
-                                <h3 class="font-bold text-slate-900 text-lg leading-snug line-clamp-2"
-                                    x-text="product.name"></h3>
-                                <div class="flex items-center gap-1 shrink-0">
-                                    <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
-                                    <span class="text-sm font-bold text-slate-900" x-text="product.rating"></span>
+                            class="product-card min-w-[280px] sm:min-w-[300px] bg-white rounded-[2rem] border border-slate-100 overflow-hidden flex flex-col snap-start">
+                            <div
+                                class="image-zoom-container relative h-56 sm:h-64 bg-slate-50 flex items-center justify-center p-6 sm:p-8">
+                                <div class="absolute top-4 left-4 z-10">
+                                    <span
+                                        class="bg-white/80 glass px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-slate-900 border border-white"
+                                        x-text="'ID: #' + product.id"></span>
+                                </div>
+                                <img :src="product.image" :alt="product.name"
+                                    class="max-w-full max-h-full object-contain drop-shadow-xl ">
+                                <div class="absolute top-4 right-4 z-10 flex flex-col gap-2">
+                                    <button @click.stop="toggleWishlist(product)"
+                                        class="p-2 bg-white/80 glass rounded-full hover:text-red-500 transition-all ring-1 ring-slate-100"
+                                        :class="isInWishlist(product.id) ? 'text-red-500 fill-red-500' : 'text-slate-600'">
+                                        <i data-lucide="heart" class="w-4 h-4"></i>
+                                    </button>
+                                    <button @click.stop="openShareModal(product.name)"
+                                        class="p-2 bg-white/80 glass rounded-full text-slate-600 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-all ring-1 ring-slate-100">
+                                        <i data-lucide="share-2" class="w-4 h-4"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="flex items-baseline gap-1">
-                                <span class="text-3xl font-black text-blue-600" x-text="'£' + product.price"></span>
-                                <span class="text-xs text-slate-400 font-medium">GBP</span>
+                            <div class="p-6 sm:p-8 flex flex-col flex-1 space-y-4">
+                                <div class="flex justify-between items-start gap-4">
+                                    <h3 class="font-bold text-slate-900 text-lg leading-snug line-clamp-2"
+                                        x-text="product.name"></h3>
+                                    <div class="flex items-center gap-1 shrink-0">
+                                        <i data-lucide="star" class="w-4 h-4 text-amber-400 fill-amber-400"></i>
+                                        <span class="text-sm font-bold text-slate-900" x-text="product.rating"></span>
+                                    </div>
+                                </div>
+                                <div class="flex items-baseline gap-1">
+                                    <span class="text-3xl font-black text-blue-600" x-text="'£' + product.price"></span>
+                                    <span class="text-xs text-slate-400 font-medium">GBP</span>
+                                </div>
+                                <div class="pt-2">
+                                    <button @click="addToCart(product)"
+                                        class="w-full bg-slate-900 text-white py-4 rounded-2xl hover:bg-blue-600 transition-all font-bold shadow-lg shadow-slate-900/5 hover:shadow-blue-500/20 active:scale-95">
+                                        Add to Cart
+                                    </button>
+                                </div>
                             </div>
-                            <div class="pt-2">
-                                <button @click="addToCart(product)"
-                                    class="w-full bg-slate-900 text-white py-4 rounded-2xl hover:bg-blue-600 transition-all font-bold shadow-lg shadow-slate-900/5 hover:shadow-blue-500/20 active:scale-95">
-                                    Add to Cart
-                                </button>
+                        </div>
+                    </template>
+                </div>
+            </section>
+
+            <!-- Unique Promo Banner Slider (Injected After Grocery & Staples) -->
+            <template x-if="section.id === 'grocery-staples'">
+                <section class="w-full relative py-16 overflow-hidden">
+                    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="relative h-[400px] rounded-[3rem] overflow-hidden shadow-2xl">
+                            <template x-for="(promo, index) in promoBannerSlides" :key="promo.id">
+                                <div x-show="promoBannerIndex === index"
+                                    x-transition:enter="transition ease-out duration-700"
+                                    x-transition:enter-start="opacity-0 translate-x-full"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-500"
+                                    x-transition:leave-start="opacity-100 translate-x-0"
+                                    x-transition:leave-end="opacity-0 -translate-x-full" :class="promo.bg"
+                                    class="absolute inset-0 flex items-center">
+
+                                    <!-- Decorative Circles -->
+                                    <div class="absolute -top-20 -left-20 w-80 h-80 bg-white/10 rounded-full blur-3xl">
+                                    </div>
+                                    <div
+                                        class="absolute -bottom-20 -right-20 w-80 h-80 bg-black/10 rounded-full blur-3xl">
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full h-full relative z-10">
+                                        <div class="flex flex-col justify-center px-12 md:px-20 space-y-6 text-white">
+                                            <span
+                                                class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest w-fit border border-white/30"
+                                                x-text="promo.discount"></span>
+                                            <h2 class="text-4xl md:text-5xl font-black leading-tight"
+                                                x-text="promo.title">
+                                            </h2>
+                                            <p class="text-lg text-white/90 max-w-sm" x-text="promo.desc"></p>
+                                            <button
+                                                class="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition shadow-lg w-fit flex items-center gap-2 group">
+                                                Shop Now <i data-lucide="arrow-right"
+                                                    class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                                            </button>
+                                        </div>
+                                        <div class="hidden md:flex items-center justify-center p-8">
+                                            <img :src="promo.image" :alt="promo.title"
+                                                class="max-h-[300px] w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500 rounded-3xl rotate-3 hover:rotate-0">
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Promo Indicators -->
+                            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                                <template x-for="(p, i) in promoBannerSlides" :key="i">
+                                    <button @click="promoBannerIndex = i"
+                                        :class="promoBannerIndex === i ? 'w-8 bg-white' : 'w-2 bg-white/50 hover:bg-white/70'"
+                                        class="h-2 rounded-full transition-all duration-300 shadow-sm"></button>
+                                </template>
                             </div>
                         </div>
                     </div>
-                </template>
-            </div>
-        </section>
+                </section>
+            </template>
+
+            <!-- Unique Dairy Banner Slider (Injected After Dairy Products) -->
+            <template x-if="section.id === 'dairy-products'">
+                <section class="w-full relative py-16 overflow-hidden">
+                    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="relative h-[400px] rounded-[3rem] overflow-hidden shadow-2xl">
+                            <template x-for="(promo, index) in dairyBannerSlides" :key="promo.id">
+                                <div x-show="dairyBannerIndex === index"
+                                    x-transition:enter="transition ease-out duration-700"
+                                    x-transition:enter-start="opacity-0 translate-x-full"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-500"
+                                    x-transition:leave-start="opacity-100 translate-x-0"
+                                    x-transition:leave-end="opacity-0 -translate-x-full" :class="promo.bg"
+                                    class="absolute inset-0 flex items-center">
+
+                                    <!-- Decorative Circles (Different positions for variety) -->
+                                    <div class="absolute -top-10 -right-10 w-96 h-96 bg-white/10 rounded-full blur-3xl">
+                                    </div>
+                                    <div
+                                        class="absolute -bottom-10 -left-10 w-80 h-80 bg-black/5 rounded-full blur-3xl">
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full h-full relative z-10">
+                                        <!-- Text on Right for variety -->
+                                        <div class="hidden md:flex items-center justify-center p-8 order-2 md:order-1">
+                                            <img :src="promo.image" :alt="promo.title"
+                                                class="max-h-[300px] w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500 rounded-3xl -rotate-2 hover:rotate-0">
+                                        </div>
+                                        <div
+                                            class="flex flex-col justify-center px-12 md:px-20 space-y-6 text-white order-1 md:order-2">
+                                            <span
+                                                class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest w-fit border border-white/30"
+                                                x-text="promo.discount"></span>
+                                            <h2 class="text-4xl md:text-5xl font-black leading-tight"
+                                                x-text="promo.title"></h2>
+                                            <p class="text-lg text-white/90 max-w-sm" x-text="promo.desc"></p>
+                                            <button
+                                                class="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition shadow-lg w-fit flex items-center gap-2 group">
+                                                View Deals <i data-lucide="arrow-right"
+                                                    class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Indicators -->
+                            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                                <template x-for="(p, i) in dairyBannerSlides" :key="i">
+                                    <button @click="dairyBannerIndex = i"
+                                        :class="dairyBannerIndex === i ? 'w-8 bg-white' : 'w-2 bg-white/50 hover:bg-white/70'"
+                                        class="h-2 rounded-full transition-all duration-300 shadow-sm"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </template>
+
+            <!-- Unique Packaged Foods Banner Slider (Injected After Packaged & Canned) -->
+            <template x-if="section.id === 'packaged-canned'">
+                <section class="w-full relative py-16 overflow-hidden">
+                    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="relative h-[400px] rounded-[3rem] overflow-hidden shadow-2xl">
+                            <template x-for="(promo, index) in packagedBannerSlides" :key="promo.id">
+                                <div x-show="packagedBannerIndex === index"
+                                    x-transition:enter="transition ease-out duration-700"
+                                    x-transition:enter-start="opacity-0 translate-x-full"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-500"
+                                    x-transition:leave-start="opacity-100 translate-x-0"
+                                    x-transition:leave-end="opacity-0 -translate-x-full" :class="promo.bg"
+                                    class="absolute inset-0 flex items-center">
+
+                                    <!-- Decorative Circles -->
+                                    <div
+                                        class="absolute -top-32 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-white/10 rounded-full blur-3xl">
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full h-full relative z-10">
+                                        <!-- Text on Left (Original Layout) -->
+                                        <div class="flex flex-col justify-center px-12 md:px-20 space-y-6 text-white">
+                                            <span
+                                                class="inline-block px-4 py-1.5 bg-slate-900/30 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest w-fit border border-white/20"
+                                                x-text="promo.discount"></span>
+                                            <h2 class="text-4xl md:text-5xl font-black leading-tight"
+                                                x-text="promo.title"></h2>
+                                            <p class="text-lg text-white/90 max-w-sm" x-text="promo.desc"></p>
+                                            <button
+                                                class="px-8 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition shadow-lg w-fit flex items-center gap-2 group">
+                                                Stock Up <i data-lucide="package"
+                                                    class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                                            </button>
+                                        </div>
+                                        <div class="hidden md:flex items-center justify-center p-8">
+                                            <img :src="promo.image" :alt="promo.title"
+                                                class="max-h-[300px] w-auto drop-shadow-2xl hover:scale-110 transition-transform duration-500 rounded-3xl">
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Indicators (Centered) -->
+                            <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+                                <template x-for="(p, i) in packagedBannerSlides" :key="i">
+                                    <button @click="packagedBannerIndex = i"
+                                        :class="packagedBannerIndex === i ? 'w-8 bg-white' : 'w-2 bg-white/50 hover:bg-white/70'"
+                                        class="h-2 rounded-full transition-all duration-300 shadow-sm"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </template>
+
+            <!-- Unique Beverage Banner Slider (Injected After Beverages) -->
+            <template x-if="section.id === 'beverages'">
+                <section class="w-full relative py-16 overflow-hidden">
+                    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="relative h-[400px] rounded-[3rem] overflow-hidden shadow-2xl">
+                            <template x-for="(promo, index) in beverageBannerSlides" :key="promo.id">
+                                <div x-show="beverageBannerIndex === index"
+                                    x-transition:enter="transition ease-out duration-700"
+                                    x-transition:enter-start="opacity-0 translate-x-full"
+                                    x-transition:enter-end="opacity-100 translate-x-0"
+                                    x-transition:leave="transition ease-in duration-500"
+                                    x-transition:leave-start="opacity-100 translate-x-0"
+                                    x-transition:leave-end="opacity-0 -translate-x-full" :class="promo.bg"
+                                    class="absolute inset-0 flex items-center">
+
+                                    <!-- Decorative Circles -->
+                                    <div
+                                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/20 rounded-full blur-[100px] animate-pulse">
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full h-full relative z-10">
+                                        <!-- Image on Left (Alternating Layout) -->
+                                        <div class="hidden md:flex items-center justify-center p-8 order-2 md:order-1">
+                                            <img :src="promo.image" :alt="promo.title"
+                                                class="max-h-[350px] w-auto drop-shadow-2xl hover:scale-105 transition-transform duration-500 rounded-3xl -rotate-6 hover:rotate-0">
+                                        </div>
+
+                                        <!-- Text on Right -->
+                                        <div
+                                            class="flex flex-col justify-center px-12 md:px-20 space-y-6 text-white order-1 md:order-2">
+                                            <span
+                                                class="inline-block px-4 py-1.5 bg-black/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest w-fit border border-white/30"
+                                                x-text="promo.discount"></span>
+                                            <h2 class="text-4xl md:text-5xl font-black leading-tight"
+                                                x-text="promo.title"></h2>
+                                            <p class="text-lg text-white/90 max-w-sm" x-text="promo.desc"></p>
+                                            <button
+                                                class="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition shadow-lg w-fit flex items-center gap-2 group">
+                                                Quench Thirst <i data-lucide="glass-water"
+                                                    class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Indicators (Right Aligned) -->
+                            <div class="absolute bottom-6 right-16 flex gap-3 z-20 hidden md:flex">
+                                <template x-for="(p, i) in beverageBannerSlides" :key="i">
+                                    <button @click="beverageBannerIndex = i"
+                                        :class="beverageBannerIndex === i ? 'w-8 bg-white' : 'w-2 bg-white/50 hover:bg-white/70'"
+                                        class="h-2 rounded-full transition-all duration-300 shadow-sm"></button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </template>
+        </div>
     </template>
 
     <!-- Why Choose Rhyl? -->

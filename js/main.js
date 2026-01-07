@@ -1,289 +1,276 @@
-/* Main JavaScript for Rhyl Static Site */
-
-// Shared Logic
 document.addEventListener('alpine:init', () => {
-    // Index Page Data
     Alpine.data('indexPage', () => ({
         mobileMenuOpen: false,
-        isLoggedIn: false,
-        isAdminLoggedIn: false,
-        user: { name: '', email: '' },
-        shareModalOpen: false,
         cartDrawerOpen: false,
         wishlistDrawerOpen: false,
-        shareProductName: '',
-        shareUrl: '',
+        wishlistCount: 0,
+        cartCount: 0,
+        cartTotal: 0,
+        isLoggedIn: false,
+        isAdminLoggedIn: false,
+        user: { name: 'Guest' },
+        sliderIndex: 0,
+        heroSliderIndex: 0,
+        dropdownOpen: false,
+
+        // Data Arrays
+        heroSlides: [
+            { id: 1, title: 'Olpers Full Cream Milk', subtitle: 'Daily Nutrition', desc: 'Rich, creamy, and nutritious milk perfect for your daily tea and healthy lifestyle.', cta: 'Shop Dairy', image: 'images/baby-formula.jpg', accent: 'red' },
+            { id: 2, title: 'Sabroso Chicken Nuggets', subtitle: 'Quick & Tasty', desc: 'Crispy, tender, and delicious nuggets ready in minutes. A family favorite.', cta: 'Shop Frozen', image: 'images/frozen-mixed-vegetables.jpg', accent: 'orange' },
+            { id: 3, title: 'Tapal Danedar Tea', subtitle: 'Premium Blend', desc: 'The favorite strong blend that energizes your day with every sip.', cta: 'Shop Tea', image: 'images/green-tea-bags.jpg', accent: 'red' },
+            { id: 4, title: 'Dalda Banaspati', subtitle: 'Tradition of Taste', desc: 'Enriching your meals with the authentic taste and aroma of goodness.', cta: 'Shop Grocery', image: 'images/extra-virgin-olive-oil.jpg', accent: 'amber' }
+        ],
+
+        promoBannerSlides: [
+            { id: 1, title: 'Weekend Mega Sale', discount: 'Up to 50% OFF', desc: 'Get huge discounts on pantry staples this weekend only.', bg: 'bg-indigo-600', image: 'images/shopping-bags-and-products.jpg' },
+            { id: 2, title: 'Freshness Guaranteed', discount: 'Fresh Produce', desc: 'Farm fresh vegetables delivered straight to your doorstep.', bg: 'bg-emerald-600', image: 'images/grocery-shopping-fresh-produce-and-products.jpg' },
+            { id: 3, title: 'Beauty Bonanza', discount: 'Buy 1 Get 1', desc: 'Exclusive offers on top brand shampoos and skincare.', bg: 'bg-pink-600', image: 'images/vitamin-c-serum.png' }
+        ],
+
+        promoBannerIndex: 0,
+
+        dairyBannerSlides: [
+            { id: 1, title: 'Fresh Dairy Deals', discount: 'Flat 20% OFF', desc: 'Starting your day with pure, calcium-rich milk and cheese.', bg: 'bg-sky-600', image: 'images/baby-formula.jpg' },
+            { id: 2, title: 'Yogurt Festival', discount: 'Buy 2 Get 1', desc: 'Creamy, probiotic-rich yogurt available in all flavors.', bg: 'bg-teal-600', image: 'images/baby-formula.jpg' },
+            { id: 3, title: 'Cheese Lovers', discount: 'Special Price', desc: 'Premium cheddar and mozzarella blocks for your recipes.', bg: 'bg-blue-600', image: 'images/grocery-shopping-fresh-produce-and-products.jpg' }
+        ],
+
+        dairyBannerIndex: 0,
+
+        packagedBannerSlides: [
+            { id: 1, title: 'Pantry Essentials', discount: 'Bundle Offer', desc: 'Stock up on ketchups, sauces, and instant meals.', bg: 'bg-red-600', image: 'images/fresh-orange-juice.png' },
+            { id: 2, title: 'Canned Delights', discount: 'Buy 3 Get 1', desc: 'Premium quality canned fruits and vegetables for your convenience.', bg: 'bg-amber-600', image: 'images/frozen-mixed-vegetables.jpg' },
+            { id: 3, title: 'Sauce & Spices', discount: 'Flat 15% OFF', desc: 'Add zest to your meals with our range of soy and chilli sauces.', bg: 'bg-orange-600', image: 'images/extra-virgin-olive-oil.jpg' }
+        ],
+
+        packagedBannerIndex: 0,
+
+        beverageBannerSlides: [
+            { id: 1, title: 'Summer Refreshers', discount: 'Buy 1 Get 1', desc: 'Beat the heat with our chilled variety of juices and sodas.', bg: 'bg-lime-600', image: 'images/fresh-orange-juice.png' },
+            { id: 2, title: 'Tea & Coffee Time', discount: 'Combo Saver', desc: 'Premium tea blends and roasts for your perfect morning brew.', bg: 'bg-emerald-600', image: 'images/green-tea-bags.jpg' },
+            { id: 3, title: 'Energize Your Day', discount: 'Flat 20% OFF', desc: 'Sports drinks and energy boosters at unbeatable prices.', bg: 'bg-cyan-600', image: 'images/grocery-shopping-fresh-produce-and-products.jpg' }
+        ],
+
+        beverageBannerIndex: 0,
+
+        // New Categorized Product Arrays
+        freshProduce: [],
+        groceryStaples: [],
+        spicesMasala: [],
+        dairyProducts: [],
+        meatFrozen: [],
+        packagedCanned: [],
+        snacksBakery: [],
+        beverages: [],
+        householdCleaning: [],
+        personalCare: [],
+
+        sliderProducts: [],
+        topProducts: [],
         cart: [],
         wishlist: [],
-        cartCount: 0,
-        wishlistCount: 0,
+
+        init() {
+            this.isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+
+            // Define the massive static catalog
+            const fullCatalog = {
+                freshProduce: [
+                    { id: 101, name: 'Farm Fresh Vegetable Box', price: 12.99, rating: 4.9, image: 'images/grocery-shopping-fresh-produce-and-products.jpg', category: 'Fresh Produce' },
+                    { id: 106, name: 'Garden Mixed Vegetables', price: 4.99, rating: 4.7, image: 'images/frozen-mixed-vegetables.jpg', category: 'Fresh Produce' },
+                    { id: 115, name: 'Premium Veggie Basket', price: 15.50, rating: 5.0, image: 'images/fresh-basket-1.jpg', category: 'Fresh Produce' },
+                    { id: 116, name: 'Organic Greens Mix', price: 9.99, rating: 4.8, image: 'images/fresh-basket-2.jpg', category: 'Fresh Produce' }
+                ],
+                groceryStaples: [
+                    { id: 222, name: 'Dalda Sunflower Oil', price: 8.99, rating: 4.9, image: 'images/grocery-oil-1.jpg', category: 'Grocery & Staples' },
+                    { id: 201, name: 'Premium Aged Basmati Rice', price: 18.99, rating: 4.9, image: 'images/organic-brown-rice-2kg.jpg', category: 'Grocery & Staples' },
+                    { id: 203, name: 'Organic Whole Wheat Flour', price: 12.99, rating: 4.9, image: 'images/whole-wheat-flour.png', category: 'Grocery & Staples' },
+                    { id: 223, name: 'Dalda Cooking Oil', price: 7.99, rating: 4.9, image: 'images/grocery-oil-2.jpg', category: 'Grocery & Staples' },
+                    { id: 221, name: 'Premium Grocery Item', price: 5.99, rating: 4.8, image: 'images/grocery-new-1.webp', category: 'Grocery & Staples' }
+                ],
+                spicesMasala: [
+                    { id: 304, name: 'Cumin Seeds 100g', price: 3.49, rating: 4.8, image: 'images/pile-of-coffee-beans.png', category: 'Spices & Masala' },
+                    { id: 310, name: 'Premium Masala Box', price: 12.99, rating: 5.0, image: 'images/masala-box.jpg', category: 'Spices & Masala' },
+                    { id: 311, name: 'National Biryani Mix', price: 1.25, rating: 4.9, image: 'images/national-biryani.jpg', category: 'Spices & Masala' },
+                    { id: 312, name: 'National Quorma Mix', price: 1.25, rating: 4.8, image: 'images/national-quorma.jpg', category: 'Spices & Masala' },
+                    { id: 313, name: 'National Karahi Mix', price: 1.25, rating: 4.8, image: 'images/national-karahi.jpg', category: 'Spices & Masala' }
+                ],
+                dairyProducts: [
+                    { id: 415, name: 'Olpers Fresh Milk 1L', price: 1.99, rating: 4.9, image: 'images/dairy-1.jpg', category: 'Dairy Products' },
+                    { id: 416, name: 'Milk Pak Full Cream 1L', price: 1.89, rating: 4.8, image: 'images/dairy-2.jpg', category: 'Dairy Products' },
+                    { id: 417, name: 'Premium Dairy Collection', price: 8.99, rating: 4.9, image: 'images/dairy-3.jpg', category: 'Dairy Products' },
+                    { id: 418, name: 'Olpers Milk Pack', price: 1.95, rating: 4.8, image: 'images/dairy-4.jpg', category: 'Dairy Products' }
+                ],
+                meatFrozen: [
+                    { id: 510, name: 'Sabroso Nuggets Saver 1kg', price: 4.25, rating: 4.8, image: 'images/meat-frozen-1.jpg', category: 'Meat & Frozen' },
+                    { id: 511, name: 'K&Ns Burger Patties', price: 5.50, rating: 4.7, image: 'images/meat-frozen-2.jpg', category: 'Meat & Frozen' },
+                    { id: 501, name: 'Whole Chicken (1kg)', price: 6.99, rating: 4.8, image: 'images/meat-frozen-3.jpg', category: 'Meat & Frozen' },
+                    { id: 503, name: 'Premium Beef Cubes 1kg', price: 12.99, rating: 4.9, image: 'images/meat-frozen-1.jpg', category: 'Meat & Frozen' },
+                    { id: 514, name: 'Premium Frozen Meat Selection', price: 15.99, rating: 4.9, image: 'images/meat-frozen-1.jpg', category: 'Meat & Frozen' },
+                    { id: 515, name: 'Assorted Meat Variety Pack', price: 18.99, rating: 4.8, image: 'images/meat-frozen-2.jpg', category: 'Meat & Frozen' },
+                    { id: 516, name: 'Gourmet Frozen Meat Collection', price: 17.49, rating: 4.9, image: 'images/meat-frozen-3.jpg', category: 'Meat & Frozen' }
+                ],
+                packagedCanned: [
+                    { id: 610, name: 'Premium Breakfast Meal Can', price: 3.99, rating: 4.9, image: 'images/packaged-1.jpg', category: 'Packaged Food' },
+                    { id: 611, name: 'Gourmet Canned Collection', price: 5.49, rating: 4.8, image: 'images/packaged-2.jpg', category: 'Packaged Food' },
+                    { id: 612, name: 'Assorted Canned Delights', price: 4.99, rating: 4.7, image: 'images/packaged-3.jpg', category: 'Packaged Food' },
+                    { id: 613, name: 'Lunch & Dinner Variety Pack', price: 6.99, rating: 4.9, image: 'images/packaged-4.jpg', category: 'Packaged Food' }
+                ],
+                snacksBakery: [
+                    { id: 717, name: 'Premium Bakery Assortment', price: 8.99, rating: 4.9, image: 'images/snacks-1.jpg', category: 'Snacks & Bakery' },
+                    { id: 718, name: 'Gourmet Snack Selection', price: 6.49, rating: 4.8, image: 'images/snacks-2.jpg', category: 'Snacks & Bakery' },
+                    { id: 719, name: 'SMUB Snack Pack', price: 2.99, rating: 4.7, image: 'images/snacks-3.jpg', category: 'Snacks & Bakery' },
+                    { id: 720, name: 'Crispy Chips Pack', price: 1.99, rating: 4.8, image: 'images/snacks-4.png', category: 'Snacks & Bakery' }
+                ],
+                beverages: [
+                    { id: 820, name: 'Premium Soft Drinks Collection', price: 12.99, rating: 4.9, image: 'images/beverage-1.jpg', category: 'Beverages' },
+                    { id: 821, name: 'Fanta & Sprite Variety Pack', price: 6.99, rating: 4.8, image: 'images/beverage-2.jpg', category: 'Beverages' },
+                    { id: 822, name: 'Classic Soda Bottles', price: 8.49, rating: 4.9, image: 'images/beverage-3.jpg', category: 'Beverages' },
+                    { id: 823, name: 'Shezan Mango Drink', price: 2.99, rating: 4.8, image: 'images/beverage-4.jpg', category: 'Beverages' }
+                ],
+                householdCleaning: [
+                    { id: 910, name: 'Surf Excel Deep Action 1kg', price: 2.10, rating: 4.9, image: 'images/laundry-detergent.png', category: 'Household' },
+                    { id: 901, name: 'Ariel Washing Powder', price: 5.99, rating: 4.8, image: 'images/laundry-detergent.png', category: 'Household' },
+                    { id: 903, name: 'Lemon Dishwashing Liquid', price: 3.49, rating: 4.8, image: 'images/dish-soap.png', category: 'Household' },
+                    { id: 906, name: 'Glass Cleaner Spray', price: 3.99, rating: 4.7, image: 'images/multi-surface-cleaner.png', category: 'Household' }
+                ],
+                personalCare: [
+                    { id: 1010, name: 'SIRONA Personal Care Kit', price: 12.99, rating: 4.9, image: 'images/personal-care-1.jpg', category: 'Personal Care' },
+                    { id: 1011, name: 'Dove Fresh Touch Collection', price: 8.99, rating: 4.8, image: 'images/personal-care-2.jpg', category: 'Personal Care' },
+                    { id: 1012, name: 'Premium Skincare Gift Set', price: 15.49, rating: 4.9, image: 'images/personal-care-3.jpg', category: 'Personal Care' },
+                    { id: 1009, name: 'Body Spray Deodorant', price: 3.99, rating: 4.7, image: 'images/velvet-rose.png', category: 'Personal Care' }
+                ]
+            };
+
+            // Flatten for slider/top products logic
+            const allProducts = Object.values(fullCatalog).flat();
+
+            // Force save this massive new catalog to localStorage
+            // content-visibility: auto to prevent blocking verify
+            try {
+                console.log('Rhyl: Initializing massive catalog expansion...');
+                localStorage.setItem('products', JSON.stringify(allProducts));
+            } catch (e) {
+                console.error('Rhyl: LocalStorage save failed', e);
+            }
+
+            // Populate State
+            this.freshProduce = fullCatalog.freshProduce;
+            this.groceryStaples = fullCatalog.groceryStaples;
+            this.spicesMasala = fullCatalog.spicesMasala;
+            this.dairyProducts = fullCatalog.dairyProducts;
+            this.meatFrozen = fullCatalog.meatFrozen;
+            this.packagedCanned = fullCatalog.packagedCanned;
+            this.snacksBakery = fullCatalog.snacksBakery;
+            this.beverages = fullCatalog.beverages;
+            this.householdCleaning = fullCatalog.householdCleaning;
+            this.personalCare = fullCatalog.personalCare;
+            this.babyProducts = fullCatalog.babyProducts;
+
+            // Slider & Top Products Logic
+            // Slider & Top Products Logic
+            // Curated Premium Featured Collection
+            this.sliderProducts = [
+                { id: 410, name: 'Olpers Full Cream Milk', price: 1.45, rating: 4.9, description: '100% Pure UHT Milk, perfect for tea and coffee.', image: 'images/baby-formula.jpg', category: 'Dairy' },
+                { id: 510, name: 'Sabroso Chicken Nuggets', price: 4.25, rating: 4.9, description: 'The original crispy chicken nuggets tailored for taste.', image: 'images/frozen-mixed-vegetables.jpg', category: 'Frozen' },
+                { id: 810, name: 'Tapal Danedar Pouch', price: 3.85, rating: 5.0, description: 'Pakistan\'s No. 1 strong tea brand.', image: 'images/green-tea-bags.jpg', category: 'Beverages' },
+                { id: 220, name: 'Dalda Banaspati 5kg', price: 12.50, rating: 4.9, description: 'Generations of trust and taste.', image: 'images/extra-virgin-olive-oil.jpg', category: 'Grocery' },
+                { id: 1001, name: 'Sunsilk Black Shine', price: 3.99, rating: 4.8, description: 'For long lasting shine and black hair.', image: 'images/vitamin-c-serum.png', category: 'Personal Care' }
+            ];
+
+            this.topProducts = [...allProducts].sort((a, b) => b.rating - a.rating).slice(0, 4);
+
+            this.updateCartCount();
+            this.startHeroSlider();
+            this.startFeaturedSlider();
+            this.startPromoSlider();
+            this.startDairySlider();
+            this.startPackagedSlider();
+            this.startBeverageSlider();
+            // Initialize icons after Alpine renders
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 100);
+        },
+
+        startHeroSlider() {
+            setInterval(() => {
+                this.heroSliderIndex = (this.heroSliderIndex + 1) % this.heroSlides.length;
+            }, 2500);
+        },
+
+        startFeaturedSlider() {
+            setInterval(() => {
+                this.sliderIndex = (this.sliderIndex + 1) % this.sliderProducts.length;
+            }, 2500);
+        },
+
+        startPromoSlider() {
+            setInterval(() => {
+                this.promoBannerIndex = (this.promoBannerIndex + 1) % this.promoBannerSlides.length;
+            }, 3500);
+        },
+
+        startDairySlider() {
+            setInterval(() => {
+                this.dairyBannerIndex = (this.dairyBannerIndex + 1) % this.dairyBannerSlides.length;
+            }, 4000); // Slightly different timing
+        },
+
+        startPackagedSlider() {
+            setInterval(() => {
+                this.packagedBannerIndex = (this.packagedBannerIndex + 1) % this.packagedBannerSlides.length;
+            }, 5000); // Slowest rotation
+        },
+
+        startBeverageSlider() {
+            setInterval(() => {
+                this.beverageBannerIndex = (this.beverageBannerIndex + 1) % this.beverageBannerSlides.length;
+            }, 3000); // Fast rotation for energy
+        },
+
+        // Cart & Wishlist Logic (Preserved)
         addToCart(product) {
-            const existingItem = this.cart.find(item => item.id === product.id);
-            if (existingItem) {
-                existingItem.quantity++;
+            const existing = this.cart.find(item => item.id === product.id);
+            if (existing) {
+                existing.quantity++;
             } else {
                 this.cart.push({ ...product, quantity: 1 });
             }
             this.updateCartCount();
-            this.saveCart();
-
-            // Show feedback (optional toast could be added here)
-            const btn = event.target.closest('button');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i data-lucide="check" class="w-5 h-5 mx-auto"></i>';
-            if (window.lucide) window.lucide.createIcons();
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                if (window.lucide) window.lucide.createIcons();
-            }, 1000);
+            this.showNotification('Added to cart');
         },
         updateCartCount() {
-            this.cartCount = this.cart.reduce((total, item) => total + item.quantity, 0);
-        },
-        saveCart() {
-            localStorage.setItem('rhyl_cart', JSON.stringify(this.cart));
-        },
-        loadCart() {
-            const savedCart = localStorage.getItem('rhyl_cart');
-            if (savedCart) {
-                this.cart = JSON.parse(savedCart);
-                this.updateCartCount();
-            }
+            this.cartCount = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+            this.cartTotal = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            localStorage.setItem('cart', JSON.stringify(this.cart));
         },
         toggleWishlist(product) {
             const index = this.wishlist.findIndex(item => item.id === product.id);
             if (index > -1) {
                 this.wishlist.splice(index, 1);
+                this.showNotification('Removed from wishlist');
             } else {
                 this.wishlist.push(product);
+                this.showNotification('Added to wishlist');
             }
-            this.updateWishlistCount();
-            this.saveWishlist();
-        },
-        updateWishlistCount() {
             this.wishlistCount = this.wishlist.length;
-        },
-        saveWishlist() {
-            localStorage.setItem('rhyl_wishlist', JSON.stringify(this.wishlist));
-        },
-        loadWishlist() {
-            const savedWishlist = localStorage.getItem('rhyl_wishlist');
-            if (savedWishlist) {
-                this.wishlist = JSON.parse(savedWishlist);
-                this.updateWishlistCount();
-            }
-        },
-        isInWishlist(id) {
-            return this.wishlist.some(item => item.id === id);
-        },
-        heroSliderIndex: 0,
-        heroSlides: [
-            { id: 1, title: 'Elevate Your Lifestyle', subtitle: 'Premium Selection', desc: 'Curated premium groceries and artisanal goods delivered with uncompromising quality.', cta: 'Start Shopping', image: 'images/grocery-shopping-fresh-produce-and-products.jpg', accent: 'blue' },
-            { id: 2, title: 'Artisanal Bakery Freshness', subtitle: 'Handcrafted Daily', desc: 'Experience the rich aroma of freshly baked sourdough and delicate pastries.', cta: 'Explore Bakery', image: 'images/artisan-sourdough-loaf.jpg', accent: 'amber' },
-            { id: 3, title: 'Luxury In Every Scent', subtitle: 'Exclusive Collection', desc: 'Discover our collection of premium perfumes and designer fragrances.', cta: 'Shop Perfumes', image: 'images/midnight-oud.png', accent: 'indigo' }
-        ],
-        sliderIndex: 0,
-        sliderProducts: [
-            { id: 1, name: 'Organic Brown Rice', price: 8.99, rating: 4.8, image: 'images/organic-brown-rice-2kg.jpg', category: 'Grocery', description: 'Premium quality organic brown rice, perfect for healthy meals and family dinners.' },
-            { id: 32, name: 'Fresh Orange Juice', price: 4.99, rating: 4.9, image: 'images/fresh-orange-juice.png', category: 'Beverages', description: '100% pure squeezed orange juice with no added sugar.' },
-            { id: 5, name: 'Artisan Sourdough Loaf', price: 6.49, rating: 4.9, image: 'images/artisan-sourdough-loaf.jpg', category: 'Bakery', description: 'Freshly baked artisan sourdough with authentic flavor and texture.' },
-            { id: 19, name: 'Premium Coffee Beans', price: 12.99, rating: 4.9, image: 'images/premium-coffee-beans.jpg', category: 'Beverages', description: 'Single-origin specialty coffee beans with rich, complex flavors.' }
-        ],
-        topProducts: [
-            { id: 32, name: 'Fresh Orange Juice', price: 4.99, rating: 4.9, image: 'images/fresh-orange-juice.png' },
-            { id: 5, name: 'Artisan Sourdough Loaf', price: 6.49, rating: 4.9, image: 'images/artisan-sourdough-loaf.jpg' },
-            { id: 13, name: 'Vitamin C Serum 30ml', price: 22.99, rating: 4.9, image: 'images/vitamin-c-serum.png' },
-            { id: 17, name: 'Midnight Oud EDP 100ml', price: 89.99, rating: 4.9, image: 'images/midnight-oud.png' }
-        ],
-        groceryProducts: [
-            { id: 1, name: 'Organic Brown Rice 2kg', price: 8.99, rating: 4.8, image: 'images/organic-brown-rice-2kg.jpg' },
-            { id: 2, name: 'Extra Virgin Olive Oil 500ml', price: 12.99, rating: 4.9, image: 'images/extra-virgin-olive-oil.jpg' },
-            { id: 3, name: 'Whole Wheat Flour 1kg', price: 5.99, rating: 4.7, image: 'images/whole-wheat-flour.png' },
-            { id: 4, name: 'Frozen Mixed Vegetables', price: 4.49, rating: 4.6, image: 'images/frozen-mixed-vegetables.jpg' }
-        ],
-        bakeryProducts: [
-            { id: 5, name: 'Artisan Sourdough Loaf', price: 6.49, rating: 4.9, image: 'images/artisan-sourdough-loaf.jpg' },
-            { id: 6, name: 'Fresh Croissants Pack', price: 7.99, rating: 4.8, image: 'images/fresh-croissants.jpg' },
-            { id: 7, name: 'Choco Chip Muffins 6pc', price: 5.49, rating: 4.7, image: 'images/chocolate-chip-muffins.jpg' },
-            { id: 8, name: 'Rustic Sourdough', price: 6.99, rating: 4.8, image: 'images/rustic-sourdough-loaf.png' }
-        ],
-        babyProducts: [
-            { id: 9, name: 'Baby Formula 500g', price: 16.99, rating: 4.8, image: 'images/baby-formula.jpg' },
-            { id: 10, name: 'Gentle Baby Wipes', price: 8.99, rating: 4.9, image: 'images/baby-wipes.jpg' },
-            { id: 11, name: 'Infant Diapers Pack', price: 19.99, rating: 4.7, image: 'images/baby-diapers.png' },
-            { id: 12, name: 'Baby Care Kit', price: 24.99, rating: 4.8, image: 'images/baby-care-kit.png' }
-        ],
-        healthBeautyProducts: [
-            { id: 13, name: 'Vitamin C Serum 30ml', price: 22.99, rating: 4.9, image: 'images/vitamin-c-serum.png' },
-            { id: 14, name: 'Natural Moisturizer', price: 14.99, rating: 4.8, image: 'images/face-moisturizer-cream.png' },
-            { id: 15, name: 'Whitening Toothpaste', price: 5.99, rating: 4.6, image: 'images/whitening-toothpaste.jpg' },
-            { id: 16, name: 'Vitamin Serum Lux', price: 25.00, rating: 4.9, image: 'images/vitamin-serum.jpg' }
-        ],
-        perfumeProducts: [
-            { id: 17, name: 'Midnight Oud EDP 100ml', price: 89.99, rating: 4.9, image: 'images/midnight-oud.png' },
-            { id: 18, name: 'Floral Bloom 50ml', price: 65.00, rating: 4.8, image: 'images/floral-bloom.png' },
-            { id: 19, name: 'Classic Silver EDT 100ml', price: 55.49, rating: 4.7, image: 'images/classic-silver.png' },
-            { id: 20, name: 'Velvet Rose Parfum 75ml', price: 79.99, rating: 4.9, image: 'images/velvet-rose.png' }
-        ],
-        produceProducts: [
-            { id: 33, name: 'Fresh Fruit Basket', price: 24.99, rating: 4.8, image: 'images/grocery-shopping-fresh-produce-and-products.jpg' },
-            { id: 34, name: 'Organic Honey 500g', price: 12.49, rating: 4.9, image: 'images/extra-virgin-olive-oil.jpg' },
-            { id: 35, name: 'Premium Pasta 1kg', price: 5.99, rating: 4.7, image: 'images/organic-brown-rice-2kg.jpg' },
-            { id: 36, name: 'Baby Spinach 200g', price: 2.99, rating: 4.8, image: 'images/frozen-mixed-vegetables.jpg' }
-        ],
-        beverageProducts: [
-            { id: 32, name: 'Fresh Orange Juice', price: 4.99, rating: 4.9, image: 'images/fresh-orange-juice.png' },
-            { id: 37, name: 'Green Tea Bags 50pc', price: 6.99, rating: 4.8, image: 'images/green-tea-bags.jpg' },
-            { id: 38, name: 'Specialty Coffee', price: 12.99, rating: 4.9, image: 'images/pile-of-coffee-beans.png' },
-            { id: 39, name: 'Premium Coffee 250g', price: 9.49, rating: 4.7, image: 'images/premium-coffee-beans.jpg' }
-        ],
-        init() {
-            this.isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
-
-            // Initialize products from localStorage if available
-            const savedProducts = localStorage.getItem('products');
-            if (savedProducts) {
-                const lp = JSON.parse(savedProducts);
-                this.groceryProducts = lp.filter(p => p.category === 'Grocery');
-                this.produceProducts = lp.filter(p => p.category === 'Produce');
-                this.bakeryProducts = lp.filter(p => p.category === 'Bakery');
-                this.beverageProducts = lp.filter(p => p.category === 'Beverages');
-                this.babyProducts = lp.filter(p => p.category === 'Baby Care');
-                this.healthBeautyProducts = lp.filter(p => p.category === 'Beauty');
-                this.perfumeProducts = lp.filter(p => p.category === 'Perfumes');
-
-                // FORCE REFRESH: If any product has a broken image path or missing sections, reset from verified sources
-                const hasBrokenImages = lp.some(p => !p.image || p.image.includes('placeholder'));
-                const hasProduce = lp.some(p => p.category === 'Produce');
-                const hasBeverage = lp.some(p => p.category === 'Beverages');
-
-                if (hasBrokenImages || !hasProduce || !hasBeverage) {
-                    console.log('Rhyl: Repairing product catalog integrity...');
-
-                    // Verified Clean Data Source
-                    const cleanProduce = [
-                        { id: 33, name: 'Fresh Fruit Basket', price: 24.99, rating: 4.8, image: 'images/grocery-shopping-fresh-produce-and-products.jpg', category: 'Produce', featured: true },
-                        { id: 34, name: 'Organic Honey 500g', price: 12.49, rating: 4.9, image: 'images/extra-virgin-olive-oil.jpg', category: 'Produce' },
-                        { id: 35, name: 'Premium Pasta 1kg', price: 5.99, rating: 4.7, image: 'images/organic-brown-rice-2kg.jpg', category: 'Produce' },
-                        { id: 36, name: 'Baby Spinach 200g', price: 2.99, rating: 4.8, image: 'images/frozen-mixed-vegetables.jpg', category: 'Produce' }
-                    ];
-
-                    const cleanBeverages = [
-                        { id: 32, name: 'Fresh Orange Juice', price: 4.99, rating: 4.9, image: 'images/fresh-orange-juice.png', category: 'Beverages', featured: true },
-                        { id: 37, name: 'Green Tea Bags 50pc', price: 6.99, rating: 4.8, image: 'images/green-tea-bags.jpg', category: 'Beverages' },
-                        { id: 38, name: 'Specialty Coffee', price: 12.99, rating: 4.9, image: 'images/pile-of-coffee-beans.png', category: 'Beverages' },
-                        { id: 39, name: 'Premium Coffee 250g', price: 9.49, rating: 4.7, image: 'images/premium-coffee-beans.jpg', category: 'Beverages' }
-                    ];
-
-                    const otherProducts = lp.filter(p => p.category !== 'Produce' && p.category !== 'Beverages');
-                    const updatedLP = [...otherProducts, ...cleanProduce, ...cleanBeverages];
-
-                    localStorage.setItem('products', JSON.stringify(updatedLP));
-
-                    // Update current state
-                    this.produceProducts = cleanProduce;
-                    this.beverageProducts = cleanBeverages;
-                    this.groceryProducts = updatedLP.filter(p => p.category === 'Grocery');
-                    this.bakeryProducts = updatedLP.filter(p => p.category === 'Bakery');
-                    this.babyProducts = updatedLP.filter(p => p.category === 'Baby Care');
-                    this.healthBeautyProducts = updatedLP.filter(p => p.category === 'Beauty');
-                    this.perfumeProducts = updatedLP.filter(p => p.category === 'Perfumes');
-                }
-
-                // Final sync for slider/top products
-                const currentLP = JSON.parse(localStorage.getItem('products'));
-                this.sliderProducts = currentLP.filter(p => p.featured).slice(0, 4);
-                if (this.sliderProducts.length === 0) this.sliderProducts = currentLP.slice(0, 4);
-                this.topProducts = [...currentLP].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 4);
-            } else {
-                // First time load: save default products to localStorage for admin management
-                const allDefaults = [
-                    ...this.groceryProducts.map(p => ({ ...p, category: 'Grocery' })),
-                    ...this.produceProducts.map(p => ({ ...p, category: 'Produce' })),
-                    ...this.bakeryProducts.map(p => ({ ...p, category: 'Bakery' })),
-                    ...this.beverageProducts.map(p => ({ ...p, category: 'Beverages' })),
-                    ...this.babyProducts.map(p => ({ ...p, category: 'Baby Care' })),
-                    ...this.healthBeautyProducts.map(p => ({ ...p, category: 'Beauty' })),
-                    ...this.perfumeProducts.map(p => ({ ...p, category: 'Perfumes' }))
-                ];
-                localStorage.setItem('products', JSON.stringify(allDefaults));
-            }
-
-            const savedUser = localStorage.getItem('user');
-            if (savedUser) {
-                this.user = JSON.parse(savedUser);
-                this.isLoggedIn = true;
-            }
-            this.loadCart();
-            this.loadWishlist();
-            setInterval(() => {
-                this.heroSliderIndex = (this.heroSliderIndex + 1) % this.heroSlides.length;
-            }, 6000);
-            setInterval(() => {
-                this.sliderIndex = (this.sliderIndex + 1) % this.sliderProducts.length;
-            }, 5000);
-
-            // Re-initialize Lucide icons after Alpine rendered templates
-            this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
-        },
-        openShareModal(name) {
-            this.shareProductName = name;
-            this.shareUrl = window.location.href + '?product=' + encodeURIComponent(name);
-            this.shareModalOpen = true;
-        },
-        copyToClipboard() {
-            navigator.clipboard.writeText(this.shareUrl);
-            alert('Link copied to clipboard!');
+            localStorage.setItem('wishlist', JSON.stringify(this.wishlist));
         },
         logout() {
-            localStorage.removeItem('user');
             this.isLoggedIn = false;
-            this.user = null;
+            this.isAdminLoggedIn = false;
+            this.user = { name: 'Guest' };
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('adminLoggedIn');
+            window.location.href = 'index.html';
+        },
+        showNotification(message) {
+            const el = document.createElement('div');
+            el.className = 'fixed bottom-4 right-4 bg-slate-900 text-white px-6 py-3 rounded-xl shadow-xl z-50 animate-fade-in-up';
+            el.textContent = message;
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 3000);
         }
     }));
-
-    // Login Page Data
-    Alpine.data('loginPage', () => ({
-        email: '',
-        password: '',
-        error: '',
-        loading: false,
-        handleSubmit() {
-            this.error = '';
-            this.loading = true;
-
-            setTimeout(() => {
-                if (this.email === 'user@example.com' && this.password === 'password123') {
-                    localStorage.setItem('user', JSON.stringify({ name: 'John Doe', email: this.email }));
-                    window.location.href = 'index.html';
-                } else {
-                    this.error = 'Invalid credentials';
-                }
-                this.loading = false;
-            }, 1000);
-        }
-    }));
-
-    // Signup Page Data
-    Alpine.data('signupPage', () => ({
-        name: '',
-        email: '',
-        password: '',
-        loading: false,
-        handleSubmit() {
-            this.loading = true;
-            setTimeout(() => {
-                localStorage.setItem('user', JSON.stringify({ name: this.name, email: this.email }));
-                window.location.href = 'index.html';
-                this.loading = false;
-            }, 1000);
-        }
-    }));
-});
-
-// Initialize Lucide Icons on initial load
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.lucide) {
-        window.lucide.createIcons();
-    }
 });
