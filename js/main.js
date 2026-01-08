@@ -89,9 +89,10 @@ document.addEventListener('alpine:init', () => {
             const fullCatalog = {
                 freshProduce: [
                     { id: 101, name: 'Farm Fresh Vegetable Box', price: 12.99, rating: 4.9, image: 'images/grocery-shopping-fresh-produce-and-products.jpg', category: 'Fresh Produce' },
-                    { id: 106, name: 'Garden Mixed Vegetables', price: 4.99, rating: 4.7, image: 'images/frozen-mixed-vegetables.jpg', category: 'Fresh Produce' },
                     { id: 115, name: 'Premium Veggie Basket', price: 15.50, rating: 5.0, image: 'images/fresh-basket-1.jpg', category: 'Fresh Produce' },
-                    { id: 116, name: 'Organic Greens Mix', price: 9.99, rating: 4.8, image: 'images/fresh-basket-2.jpg', category: 'Fresh Produce' }
+                    { id: 116, name: 'Organic Greens Mix', price: 9.99, rating: 4.8, image: 'images/fresh-basket-2.jpg', category: 'Fresh Produce' },
+                    { id: 120, name: 'Onion 8kg', price: 5.00, rating: 4.5, image: 'images/red-onion.jpg', category: 'Fresh Produce' },
+                    { id: 121, name: 'Onion 18kg', price: 10.00, rating: 4.5, image: 'images/red-onion.jpg', category: 'Fresh Produce' }
                 ],
                 groceryStaples: [
                     { id: 222, name: 'Dalda Sunflower Oil', price: 8.99, rating: 4.9, image: 'images/grocery-oil-1.jpg', category: 'Grocery & Staples' },
@@ -138,13 +139,14 @@ document.addEventListener('alpine:init', () => {
                     { id: 820, name: 'Premium Soft Drinks Collection', price: 12.99, rating: 4.9, image: 'images/beverage-1.jpg', category: 'Beverages' },
                     { id: 821, name: 'Fanta & Sprite Variety Pack', price: 6.99, rating: 4.8, image: 'images/beverage-2.jpg', category: 'Beverages' },
                     { id: 822, name: 'Classic Soda Bottles', price: 8.49, rating: 4.9, image: 'images/beverage-3.jpg', category: 'Beverages' },
-                    { id: 823, name: 'Shezan Mango Drink', price: 2.99, rating: 4.8, image: 'images/beverage-4.jpg', category: 'Beverages' }
+                    { id: 823, name: 'Shezan Mango Drink', price: 2.99, rating: 4.8, image: 'images/beverage-4.jpg', category: 'Beverages' },
+                    { id: 830, name: 'Drink cans 24x330ml', price: 9.99, rating: 4.9, image: 'images/beverage-2.jpg', category: 'Beverages', description: 'Pepsi, Coke, Fanta, Dr Pepper' }
                 ],
                 householdCleaning: [
-                    { id: 910, name: 'Surf Excel Deep Action 1kg', price: 2.10, rating: 4.9, image: 'images/laundry-detergent.png', category: 'Household' },
                     { id: 901, name: 'Ariel Washing Powder', price: 5.99, rating: 4.8, image: 'images/laundry-detergent.png', category: 'Household' },
                     { id: 903, name: 'Lemon Dishwashing Liquid', price: 3.49, rating: 4.8, image: 'images/dish-soap.png', category: 'Household' },
-                    { id: 906, name: 'Glass Cleaner Spray', price: 3.99, rating: 4.7, image: 'images/multi-surface-cleaner.png', category: 'Household' }
+                    { id: 906, name: 'Glass Cleaner Spray', price: 3.99, rating: 4.7, image: 'images/multi-surface-cleaner.png', category: 'Household' },
+                    { id: 920, name: 'Toilet tissue 40 roll', price: 10.00, rating: 4.8, image: 'images/toilet-roll.jpg', category: 'Household' }
                 ],
                 personalCare: [
                     { id: 1010, name: 'SIRONA Personal Care Kit', price: 12.99, rating: 4.9, image: 'images/personal-care-1.jpg', category: 'Personal Care' },
