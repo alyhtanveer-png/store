@@ -15,10 +15,16 @@ document.addEventListener('alpine:init', () => {
 
         // Data Arrays
         heroSlides: [
-            { id: 1, title: 'Olpers Full Cream Milk', subtitle: 'Daily Nutrition', desc: 'Rich, creamy, and nutritious milk perfect for your daily tea and healthy lifestyle.', cta: 'Shop Dairy', image: 'images/baby-formula.jpg', accent: 'red' },
-            { id: 2, title: 'Sabroso Chicken Nuggets', subtitle: 'Quick & Tasty', desc: 'Crispy, tender, and delicious nuggets ready in minutes. A family favorite.', cta: 'Shop Frozen', image: 'images/frozen-mixed-vegetables.jpg', accent: 'orange' },
-            { id: 3, title: 'Tapal Danedar Tea', subtitle: 'Premium Blend', desc: 'The favorite strong blend that energizes your day with every sip.', cta: 'Shop Tea', image: 'images/green-tea-bags.jpg', accent: 'red' },
-            { id: 4, title: 'Dalda Banaspati', subtitle: 'Tradition of Taste', desc: 'Enriching your meals with the authentic taste and aroma of goodness.', cta: 'Shop Grocery', image: 'images/extra-virgin-olive-oil.jpg', accent: 'amber' }
+            {
+                id: 1,
+                type: 'collage',
+                title: 'We Believe in Quality and Services',
+                subtitle: 'Premium Selection',
+                desc: 'Experience the best products delivered to your doorstep.',
+                cta: 'Buy Online',
+                accent: 'yellow',
+                images: ['images/coke-bottle.png', 'images/rocket.png', 'images/baby-diapers.png', 'images/laundry-detergent.png']
+            }
         ],
 
         promoBannerSlides: [
@@ -64,6 +70,10 @@ document.addEventListener('alpine:init', () => {
         beverages: [],
         householdCleaning: [],
         personalCare: [],
+        pakistaniProducts: [],
+        indianProducts: [],
+        africanProducts: [],
+        filipinoProducts: [],
 
         sliderProducts: [],
         topProducts: [],
@@ -72,6 +82,8 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             this.isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+
+
 
             // Define the massive static catalog
             const fullCatalog = {
@@ -139,6 +151,30 @@ document.addEventListener('alpine:init', () => {
                     { id: 1011, name: 'Dove Fresh Touch Collection', price: 8.99, rating: 4.8, image: 'images/personal-care-2.jpg', category: 'Personal Care' },
                     { id: 1012, name: 'Premium Skincare Gift Set', price: 15.49, rating: 4.9, image: 'images/personal-care-3.jpg', category: 'Personal Care' },
                     { id: 1009, name: 'Body Spray Deodorant', price: 3.99, rating: 4.7, image: 'images/velvet-rose.png', category: 'Personal Care' }
+                ],
+                pakistaniProducts: [
+                    { id: 1101, name: 'Shan Biryani Masala', price: 1.99, rating: 5.0, image: 'images/national-biryani.jpg', category: 'Pakistani' },
+                    { id: 1102, name: 'Tapal Danedar Tea', price: 4.99, rating: 4.9, image: 'images/green-tea-bags.jpg', category: 'Pakistani' },
+                    { id: 1103, name: 'National Pickle Mix', price: 2.49, rating: 4.8, image: 'images/national-karahi.jpg', category: 'Pakistani' },
+                    { id: 1104, name: 'Laziza Kheer Mix', price: 1.50, rating: 4.9, image: 'images/snacks-3.jpg', category: 'Pakistani' }
+                ],
+                indianProducts: [
+                    { id: 1201, name: 'MDH Curry Powder', price: 2.99, rating: 4.9, image: 'images/pile-of-coffee-beans.png', category: 'Indian' },
+                    { id: 1202, name: 'Tata Tea Gold', price: 5.99, rating: 4.8, image: 'images/green-tea-bags.jpg', category: 'Indian' },
+                    { id: 1203, name: 'Haldirams Bhujia', price: 3.49, rating: 4.9, image: 'images/snacks-1.jpg', category: 'Indian' },
+                    { id: 1204, name: 'Ghee Pure Butter', price: 9.99, rating: 5.0, image: 'images/dairy-1.jpg', category: 'Indian' }
+                ],
+                africanProducts: [
+                    { id: 1301, name: 'Jollof Rice Spice', price: 3.99, rating: 4.9, image: 'images/masala-box.jpg', category: 'African' },
+                    { id: 1302, name: 'Yam Flour (Poundo)', price: 8.99, rating: 4.8, image: 'images/whole-wheat-flour.png', category: 'African' },
+                    { id: 1303, name: 'Palm Oil 1L', price: 6.99, rating: 4.7, image: 'images/grocery-oil-1.jpg', category: 'African' },
+                    { id: 1304, name: 'Plantain Chips', price: 2.99, rating: 4.9, image: 'images/snacks-4.png', category: 'African' }
+                ],
+                filipinoProducts: [
+                    { id: 1401, name: 'Datu Puti Vinegar', price: 2.49, rating: 4.9, image: 'images/beverage-1.jpg', category: 'Filipino' },
+                    { id: 1402, name: 'Silver Swan Soy Sauce', price: 2.49, rating: 4.8, image: 'images/beverage-2.jpg', category: 'Filipino' },
+                    { id: 1403, name: 'Dried Mangoes 100g', price: 4.99, rating: 5.0, image: 'images/snacks-2.jpg', category: 'Filipino' },
+                    { id: 1404, name: 'Pancit Canton', price: 1.25, rating: 4.8, image: 'images/packaged-1.jpg', category: 'Filipino' }
                 ]
             };
 
@@ -165,23 +201,26 @@ document.addEventListener('alpine:init', () => {
             this.beverages = fullCatalog.beverages;
             this.householdCleaning = fullCatalog.householdCleaning;
             this.personalCare = fullCatalog.personalCare;
+            this.pakistaniProducts = fullCatalog.pakistaniProducts;
+            this.indianProducts = fullCatalog.indianProducts;
+            this.africanProducts = fullCatalog.africanProducts;
+            this.filipinoProducts = fullCatalog.filipinoProducts;
             this.babyProducts = fullCatalog.babyProducts;
 
             // Slider & Top Products Logic
-            // Slider & Top Products Logic
             // Curated Premium Featured Collection
             this.sliderProducts = [
-                { id: 410, name: 'Olpers Full Cream Milk', price: 1.45, rating: 4.9, description: '100% Pure UHT Milk, perfect for tea and coffee.', image: 'images/baby-formula.jpg', category: 'Dairy' },
-                { id: 510, name: 'Sabroso Chicken Nuggets', price: 4.25, rating: 4.9, description: 'The original crispy chicken nuggets tailored for taste.', image: 'images/frozen-mixed-vegetables.jpg', category: 'Frozen' },
-                { id: 810, name: 'Tapal Danedar Pouch', price: 3.85, rating: 5.0, description: 'Pakistan\'s No. 1 strong tea brand.', image: 'images/green-tea-bags.jpg', category: 'Beverages' },
-                { id: 220, name: 'Dalda Banaspati 5kg', price: 12.50, rating: 4.9, description: 'Generations of trust and taste.', image: 'images/extra-virgin-olive-oil.jpg', category: 'Grocery' },
-                { id: 1001, name: 'Sunsilk Black Shine', price: 3.99, rating: 4.8, description: 'For long lasting shine and black hair.', image: 'images/vitamin-c-serum.png', category: 'Personal Care' }
+                { id: 410, name: 'Olpers Full Cream Milk', price: 1.45, rating: 4.9, description: '100% Pure UHT Milk, perfect for tea and coffee.', image: 'images/olpers-milk.png', category: 'Dairy' },
+                { id: 510, name: 'Sabroso Chicken Nuggets', price: 4.25, rating: 4.9, description: 'The original crispy chicken nuggets tailored for taste.', image: 'images/sabroso-nuggets.png', category: 'Frozen' },
+                { id: 810, name: 'Tapal Danedar Pouch', price: 3.85, rating: 5.0, description: 'Pakistan\'s No. 1 strong tea brand.', image: 'images/tapal-tea.png', category: 'Beverages' },
+                { id: 220, name: 'Dalda Banaspati 5kg', price: 12.50, rating: 4.9, description: 'Generations of trust and taste.', image: 'images/grocery-oil-1.jpg', category: 'Grocery' },
+                { id: 1001, name: 'Sunsilk Black Shine', price: 3.99, rating: 4.8, description: 'For long lasting shine and black hair.', image: 'images/shampoo.png', category: 'Personal Care' }
             ];
 
             this.topProducts = [...allProducts].sort((a, b) => b.rating - a.rating).slice(0, 4);
 
             this.updateCartCount();
-            this.startHeroSlider();
+            // Hero Slider Removed
             this.startFeaturedSlider();
             this.startPromoSlider();
             this.startDairySlider();
@@ -194,9 +233,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         startHeroSlider() {
-            setInterval(() => {
-                this.heroSliderIndex = (this.heroSliderIndex + 1) % this.heroSlides.length;
-            }, 2500);
+            // Disabled
         },
 
         startFeaturedSlider() {

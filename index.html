@@ -12,7 +12,8 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Google Fonts: Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Great+Vibes&display=swap"
+        rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <!-- Custom JS -->
@@ -23,152 +24,331 @@
 <body class="bg-slate-50 text-slate-900 overflow-x-hidden" x-data="indexPage" x-on:click.away="dropdownOpen = false">
 
     <!-- Header -->
-    <header class="sticky top-0 z-50 glass border-b border-slate-200/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
-                <a href="index.html" class="flex items-center gap-2 flex-shrink-0 group">
-                    <img src="images/rhyll-logo.png" alt="Rhyl"
-                        class="h-12 w-auto transition-transform group-hover:scale-105" style="filter: none !important;">
-                </a>
+    <header class="relative z-50">
+        <!-- Top White Bar -->
+        <div class="bg-white border-b border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-24 gap-8">
+                    <!-- Logo -->
+                    <a href="index.html" class="flex items-center gap-2 flex-shrink-0 group">
+                        <img src="images/rhyll-logo.png" alt="Rhyl Super Store"
+                            class="h-16 w-auto object-contain transition-transform group-hover:scale-105"
+                            style="border-radius: 1000px; filter: grayscale(100%) sepia(100%) hue-rotate(190deg) saturate(500%) contrast(120%);">
+                        <div class="flex flex-col">
+                            <span
+                                class="text-xl font-black text-blue-600 tracking-tight leading-none transition-colors">Super</span>
+                            <span
+                                class="text-sm font-bold text-blue-600 tracking-widest uppercase leading-none">Store</span>
+                        </div>
+                    </a>
 
-                <!-- Search Bar - Desktop -->
-                <div class="hidden md:flex flex-1 mx-12 max-w-lg">
-                    <div class="relative w-full">
-                        <i data-lucide="search"
-                            class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
-                        <input type="text" placeholder="Search premium products..."
-                            class="w-full pl-12 pr-4 py-2.5 bg-slate-100/50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all outline-none">
+                    <!-- Center Search Bar -->
+                    <div class="hidden md:flex flex-1 max-w-2xl">
+                        <div class="relative w-full group">
+                            <input type="text" placeholder="Search Products..."
+                                class="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-full focus:ring-2 focus:ring-red-600 focus:border-red-600 focus:bg-white transition-all outline-none text-slate-700 placeholder:text-slate-400">
+                            <i data-lucide="search"
+                                class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5 group-focus-within:text-red-600 transition-colors"></i>
+                        </div>
+                    </div>
+
+                    <!-- Right Actions -->
+                    <div class="flex items-center gap-6">
+                        <!-- Social Icons -->
+                        <div class="hidden lg:flex items-center gap-2 pr-6 border-r border-slate-200">
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-pink-600 hover:bg-pink-600 hover:text-white transition-colors"
+                                title="Instagram">
+                                <i data-lucide="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 hover:bg-blue-600 hover:text-white transition-colors"
+                                title="Facebook">
+                                <i data-lucide="facebook" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#"
+                                class="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-600 hover:bg-green-600 hover:text-white transition-colors"
+                                title="WhatsApp">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+
+                        <!-- User Actions -->
+                        <div class="flex items-center gap-4">
+                            <a href="#" class="p-2 text-slate-500 hover:text-slate-900 transition-colors">
+                                <i data-lucide="user" class="w-6 h-6"></i>
+                            </a>
+                            <button @click="wishlistDrawerOpen = true"
+                                class="relative p-2 text-slate-500 hover:text-red-500 transition-colors">
+                                <i data-lucide="heart" class="w-6 h-6"></i>
+                                <span
+                                    class="absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full"
+                                    x-show="wishlistCount > 0" x-text="wishlistCount"></span>
+                            </button>
+                            <button @click="cartDrawerOpen = true" class="relative flex items-center gap-2 group">
+                                <div class="relative">
+                                    <i data-lucide="shopping-cart"
+                                        class="w-6 h-6 text-slate-500 group-hover:text-blue-600 transition-colors"></i>
+                                    <span
+                                        class="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold flex items-center justify-center rounded-full"
+                                        x-show="cartCount > 0" x-text="cartCount"></span>
+                                </div>
+                                <span class="hidden md:block font-bold text-slate-700" x-text="cartCount"></span>
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- Right Section -->
-                <div class="flex items-center gap-6">
-                    <!-- Desktop Navigation -->
-                    <nav class="hidden lg:flex items-center gap-6">
-                        <a href="index.html"
-                            class="nav-link text-slate-600 hover:text-blue-600 transition font-medium">Shop</a>
-                        <div class="relative" x-data="{ open: false }" @mouseenter="open = true"
-                            @mouseleave="open = false">
-                            <button
-                                class="nav-link text-slate-600 hover:text-blue-600 transition font-medium flex items-center gap-1">
-                                World Market <i data-lucide="chevron-down" class="w-4 h-4 transition-transform"
-                                    :class="open ? 'rotate-180' : ''"></i>
-                            </button>
-                            <div x-show="open" x-cloak x-transition:enter="transition ease-out duration-200"
-                                x-transition:enter-start="opacity-0 translate-y-2"
-                                x-transition:enter-end="opacity-100 translate-y-0"
-                                x-transition:leave="transition ease-in duration-150"
-                                x-transition:leave-start="opacity-100 translate-y-0"
-                                x-transition:leave-end="opacity-0 translate-y-2"
-                                class="absolute top-full left-0 w-56 bg-white border border-slate-100 rounded-2xl shadow-xl py-2 z-[60] mt-2">
-                                <a href="#pakistani-products"
-                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Pakistani
-                                    Product</a>
-                                <a href="#indian-products"
-                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Indian
-                                    Product</a>
-                                <a href="#african-products"
-                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">African
-                                    Product</a>
-                                <a href="#phillipian-products"
-                                    class="block px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-blue-600 transition-colors">Phillipian
-                                    Product</a>
+        <!-- Navigation Bar (Yellow) -->
+        <nav class="bg-[#ffdb15] shadow-lg sticky top-0 z-40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-14">
+                    <!-- Categories -->
+                    <div class="flex items-center flex-1 gap-0.5 no-scrollbar py-2 md:py-0">
+                        <div class="flex items-center">
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Brands <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                </button>
+                                <!-- Brands Dropdown -->
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Top Brands</h4>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Olpers</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Tapal</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Shan</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">National</a>
+                                </div>
                             </div>
                         </div>
 
-                        <template x-if="isLoggedIn">
-                            <div class="flex items-center gap-6">
-                                <template x-if="isAdminLoggedIn">
-                                    <a href="admin.html"
-                                        class="bg-teal-600 text-white px-3 py-1.5 rounded-xl hover:bg-teal-700 transition-all font-semibold flex items-center gap-2 text-sm">
-                                        <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> Dashboard
-                                    </a>
-                                </template>
-                                <a href="#" class="nav-link text-slate-600 hover:text-blue-600 transition font-medium"
-                                    x-text="user.name"></a>
-                                <button @click="logout()"
-                                    class="text-slate-500 hover:text-red-500 transition font-medium flex items-center gap-2">
-                                    <i data-lucide="log-out" class="w-4 h-4"></i>
-                                </button>
-                            </div>
-                        </template>
-                        <template x-if="!isLoggedIn">
-                            <div class="flex items-center gap-6">
-                                <a href="login.html"
-                                    class="nav-link text-slate-600 hover:text-blue-600 transition font-medium">Login</a>
-                                <a href="signup.html"
-                                    class="bg-blue-600 text-white px-5 py-2 rounded-xl hover:bg-blue-700 transition-all font-semibold shadow-lg shadow-blue-500/25">Join</a>
-                            </div>
-                        </template>
-                    </nav>
+                        <div class="w-px h-4 bg-black/10 mx-2 flex-shrink-0"></div>
 
-                    <!-- Cart & Wishlist Icons -->
-                    <div class="flex items-center gap-4 border-l border-slate-200 pl-6">
-                        <button @click="wishlistDrawerOpen = true"
-                            class="relative p-2 text-slate-500 hover:text-red-500 transition-colors">
-                            <i data-lucide="heart" class="w-6 h-6"></i>
-                            <span x-show="wishlistCount > 0" x-text="wishlistCount"
-                                class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center ring-2 ring-white"></span>
-                        </button>
-                        <button @click="cartDrawerOpen = true"
-                            class="relative p-2 text-slate-500 hover:text-blue-600 transition-colors">
-                            <i data-lucide="shopping-cart" class="w-6 h-6"></i>
-                            <span x-show="cartCount > 0" x-text="cartCount"
-                                class="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center ring-2 ring-white"></span>
-                        </button>
+                        <!-- Loop through main categories -->
+                        <div class="flex items-center gap-1">
+                            <!-- Grocery Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Grocery <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#produce-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Grocery</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Fresh
+                                        Produce</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Staples</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Oil
+                                        & Ghee</a>
+                                </div>
+                            </div>
+
+                            <!-- Baby Care Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Baby Care <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#dairy-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Baby Care</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Diapers</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Baby
+                                        Food</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Skincare</a>
+                                </div>
+                            </div>
+
+                            <!-- Bakery Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Bakery <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#packaged-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Bakery</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Bread</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Crossiants</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Cakes</a>
+                                </div>
+                            </div>
+
+                            <!-- Frozen Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Frozen <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#frozen-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Frozen</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Vegetables</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Ready
+                                        to Cook</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Ice
+                                        Cream</a>
+                                </div>
+                            </div>
+
+                            <!-- Confectionery Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Confectionery <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#snacks-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Confectionery</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Chocolates</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Biscuits</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Sweets</a>
+                                </div>
+                            </div>
+
+                            <!-- Pakistani Product Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Pakistani Product <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#pakistani-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Items</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Spices</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Rice
+                                        & Flour</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Tea</a>
+                                </div>
+                            </div>
+
+                            <!-- Indian Product Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Indian Product <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#indian-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Items</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Spices</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Snacks</a>
+                                </div>
+                            </div>
+
+                            <!-- Phillipian Product Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    Phillipian Product <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#filipino-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Items</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Sauces</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Noodles</a>
+                                </div>
+                            </div>
+
+                            <!-- African Product Dropdown -->
+                            <div class="relative group">
+                                <button
+                                    class="px-1.5 py-2 text-xs font-bold text-slate-900 uppercase tracking-wider hover:bg-black/5 rounded-lg transition-colors flex items-center gap-1 whitespace-nowrap">
+                                    African Product <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                                </button>
+                                <div
+                                    class="absolute top-full left-0 w-48 bg-white shadow-xl rounded-xl py-2 hidden group-hover:block border border-slate-100 mt-1">
+                                    <h4
+                                        class="px-4 py-2 text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                                        Products</h4>
+                                    <a href="#african-products"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">All
+                                        Items</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Flour</a>
+                                    <a href="#"
+                                        class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-blue-600 font-medium">Spices</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Mobile Menu Button -->
-                    <button @click="mobileMenuOpen = !mobileMenuOpen"
-                        class="lg:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors">
-                        <i x-show="!mobileMenuOpen" data-lucide="menu" class="w-6 h-6"></i>
-                        <i x-show="mobileMenuOpen" data-lucide="x" class="w-6 h-6"></i>
-                    </button>
+
                 </div>
             </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div x-show="mobileMenuOpen" x-cloak class="lg:hidden bg-white border-t border-slate-100 p-4 space-y-4"
-            x-transition>
-            <div class="relative w-full">
-                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5"></i>
-                <input type="text" placeholder="Search..."
-                    class="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-xl outline-none">
-            </div>
-            <nav class="space-y-1">
-                <a href="index.html"
-                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Shop</a>
-                <a href="#pakistani-products" @click="mobileMenuOpen = false"
-                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Pakistani
-                    Product</a>
-                <a href="#indian-products" @click="mobileMenuOpen = false"
-                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Indian Product</a>
-                <a href="#african-products" @click="mobileMenuOpen = false"
-                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">African Product</a>
-                <a href="#phillipian-products" @click="mobileMenuOpen = false"
-                    class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Phillipian
-                    Product</a>
-                <template x-if="isLoggedIn">
-                    <div class="space-y-1">
-                        <a href="#" class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium"
-                            x-text="user.name"></a>
-                        <button @click="logout()"
-                            class="w-full text-left px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl font-medium">Logout</button>
-                    </div>
-                </template>
-                <template x-if="!isLoggedIn">
-                    <div class="pt-2 space-y-2">
-                        <a href="login.html"
-                            class="block px-4 py-3 text-slate-600 hover:bg-slate-50 rounded-xl font-medium">Login</a>
-                        <a href="signup.html"
-                            class="block px-4 py-3 bg-blue-600 text-white rounded-xl font-semibold text-center">Sign
-                            Up</a>
-                    </div>
-                </template>
-            </nav>
-        </div>
+        </nav>
     </header>
 
     <!-- Premium Hero Slider -->
@@ -181,65 +361,97 @@
                     x-transition:leave="transition ease-in duration-500"
                     x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-105"
                     class="absolute inset-0">
-                    <div :class="`bg-${slide.accent}-50/30`" class="absolute inset-0 transition-colors duration-1000">
+                    <div :class="slide.type === 'collage' ? 'bg-gradient-to-r from-yellow-300 via-amber-200 to-orange-100' : `bg-${slide.accent}-50/30`"
+                        class="absolute inset-0 transition-colors duration-1000">
                     </div>
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full relative">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center h-full py-12 md:py-20">
-                            <div class="space-y-10 order-2 lg:order-1">
+                        <!-- Standard Single Image Layout -->
+                        <template x-if="!slide.type || slide.type !== 'collage'">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center h-full py-12 md:py-20">
+                                <div class="space-y-10 order-2 lg:order-1">
+                                    <div
+                                        :class="`inline-flex items-center gap-2 px-4 py-2 bg-${slide.accent}-50 text-${slide.accent}-700 rounded-full text-sm font-semibold border border-${slide.accent}-100`">
+                                        <span class="relative flex h-2 w-2">
+                                            <span
+                                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75"></span>
+                                            <span class="relative inline-flex rounded-full h-2 w-2 bg-current"></span>
+                                        </span>
+                                        <span x-text="slide.subtitle"></span>
+                                    </div>
+                                    <h1 class="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter"
+                                        x-html="slide.title">
+                                    </h1>
+                                    <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-lg"
+                                        x-text="slide.desc"></p>
+                                    <div class="flex flex-col sm:flex-row gap-5">
+                                        <a href="#"
+                                            class="bg-blue-600 text-white px-8 md:px-12 py-4 md:py-5 rounded-[2rem] hover:bg-blue-700 transition-all font-black text-lg md:text-xl text-center shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95"
+                                            x-text="slide.cta"></a>
+                                    </div>
+                                </div>
+                                <div class="relative order-1 lg:order-2 h-full flex items-center justify-center">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent rounded-full blur-3xl transform scale-75">
+                                    </div>
+                                    <img :src="slide.image" :alt="slide.title"
+                                        class="relative w-full max-w-lg object-contain drop-shadow-2xl transform transition-transform duration-700 hover:scale-105 hover:-rotate-2">
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- New Collage Layout -->
+                        <template x-if="slide.type === 'collage'">
+                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center h-full py-12 md:py-20">
+                                <div class="space-y-6 order-2 lg:order-1 z-10 pl-8">
+                                    <h1
+                                        class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] text-blue-800 drop-shadow-sm">
+                                        We Believe in <br />
+                                        <span class="text-blue-700">Quality</span> and <br />
+                                        <span class="text-blue-700">Services</span>
+                                    </h1>
+                                    <div class="pt-4">
+                                        <button
+                                            class="px-10 py-4 bg-black text-white text-xl rounded-full font-bold shadow-2xl transition-all transform hover:-translate-y-1 hover:shadow-xl flex items-center gap-2">
+                                            Buy Online
+                                            <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                                        </button>
+                                    </div>
+                                </div>
                                 <div
-                                    :class="`inline-flex items-center gap-2 px-4 py-2 bg-${slide.accent}-50 text-${slide.accent}-700 rounded-full text-sm font-semibold border border-${slide.accent}-100`">
-                                    <span class="relative flex h-2 w-2">
-                                        <span
-                                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75"></span>
-                                        <span class="relative inline-flex rounded-full h-2 w-2 bg-current"></span>
-                                    </span>
-                                    <span x-text="slide.subtitle"></span>
-                                </div>
-                                <h1 class="text-4xl sm:text-6xl md:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter"
-                                    x-html="slide.title.replace('Lifestyle', `<span class='gradient-text'>Lifestyle</span>`).replace('Freshness', `<span class='text-amber-500 font-serif italic font-normal'>Freshness</span>`).replace('Scent', `<span class='text-indigo-600 font-serif italic font-normal'>Scent</span>`)">
-                                </h1>
-                                <p class="text-lg md:text-xl text-slate-500 leading-relaxed max-w-lg"
-                                    x-text="slide.desc">
-                                </p>
-                                <div class="flex flex-col sm:flex-row gap-5">
-                                    <a href="index.html"
-                                        class="bg-blue-600 text-white px-8 md:px-12 py-4 md:py-5 rounded-[2rem] hover:bg-blue-700 transition-all font-black text-lg md:text-xl text-center shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95"
-                                        x-text="slide.cta"></a>
-                                    <a href="signup.html"
-                                        class="bg-white/80 backdrop-blur-md border-2 border-white text-slate-900 px-8 md:px-12 py-4 md:py-5 rounded-[2rem] hover:bg-white hover:border-blue-600 transition-all font-black text-lg md:text-xl text-center flex items-center justify-center gap-2 shadow-lg hover:scale-105 active:scale-95">
-                                        Join Community
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="relative order-1 lg:order-2 h-full py-8 md:py-0">
-                                <div :class="`absolute -inset-10 bg-${slide.accent}-500/5 rounded-[5rem] blur-3xl`">
-                                </div>
-                                <div class="relative h-full flex items-center justify-center">
-                                    <div
-                                        class="bg-white p-4 rounded-[3rem] shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700 h-full w-full overflow-hidden">
-                                        <img :src="slide.image" :alt="slide.title"
-                                            class="w-full h-full object-cover rounded-[2.5rem]">
-                                    </div>
-                                    <!-- Floating Badge -->
-                                    <div
-                                        class="absolute top-1/2 -right-8 -translate-y-1/2 bg-white p-6 rounded-3xl shadow-xl hidden md:flex items-center gap-4 animate-bounce-slow">
-                                        <div
-                                            :class="`w-12 h-12 bg-${slide.accent}-100 text-${slide.accent}-600 rounded-xl flex items-center justify-center`">
-                                            <i data-lucide="award" class="w-6 h-6"></i>
-                                        </div>
-                                        <div class="text-left">
-                                            <p class="text-xs text-slate-400 font-black uppercase tracking-widest">
-                                                Premium
-                                                Choice</p>
-                                            <p class="text-lg font-black text-slate-900">Top Verified</p>
-                                        </div>
+                                    class="relative order-1 lg:order-2 h-full w-full flex items-center justify-center lg:justify-end pr-0 lg:pr-12">
+                                    <!-- Collage Container -->
+                                    <div class="relative w-[500px] h-[500px]">
+                                        <!-- Image 1: Coke (Center Left) -->
+                                        <img :src="slide.images[0]"
+                                            class="absolute top-1/2 left-0 -translate-y-1/2 w-48 z-20 drop-shadow-2xl transform -rotate-6 transition duration-1000 hover:scale-110"
+                                            alt="Item 1">
+                                        <!-- Image 2: Rocket (Top Center) -->
+                                        <img :src="slide.images[1]"
+                                            class="absolute top-0 left-1/3 -translate-x-1/2 w-40 z-10 drop-shadow-xl transform rotate-12 opacity-90 transition duration-1000 hover:scale-110"
+                                            alt="Item 2">
+                                        <!-- Image 3: Diapers (Bottom Right) -->
+                                        <img :src="slide.images[2]"
+                                            class="absolute bottom-10 right-20 w-44 z-30 drop-shadow-2xl transform rotate-3 transition duration-1000 hover:scale-110"
+                                            alt="Item 3">
+                                        <!-- Image 4: Detergent (Top Right) -->
+                                        <img :src="slide.images[3]"
+                                            class="absolute top-20 right-0 w-36 z-0 drop-shadow-lg transform -rotate-12 opacity-80 transition duration-1000 hover:scale-110"
+                                            alt="Item 4">
+                                        <!-- Image 5: Shampoo (Added for fullness) -->
+                                        <img src="images/shampoo.png"
+                                            class="absolute bottom-0 left-20 w-32 z-25 drop-shadow-xl transform -rotate-3 transition duration-1000 hover:scale-110"
+                                            alt="Item 5">
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                 </div>
-            </template>
+        </div>
+        </div>
+        </div>
+        </div>
+        </template>
         </div>
 
         <!-- Hero Navigation -->
@@ -261,53 +473,67 @@
             <p class="text-xl text-slate-500">Discover our curated selection of premium products</p>
         </div>
 
-        <div class="relative bg-white rounded-[2.5rem] overflow-hidden shadow-2xl shadow-slate-200/50" x-data="{
+        <!-- Main Slider Container -->
+        <div class="relative bg-[#0F8A5F] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-emerald-900/20" x-data="{
             prev() { this.sliderIndex = (this.sliderIndex - 1 + this.sliderProducts.length) % this.sliderProducts.length },
             next() { this.sliderIndex = (this.sliderIndex + 1) % this.sliderProducts.length }
         }">
             <!-- Main Slider -->
-            <div class="relative min-h-[750px] md:h-[500px] overflow-hidden">
+            <div class="relative min-h-[600px] md:h-[500px] overflow-hidden">
                 <template x-for="(product, index) in sliderProducts" :key="product.id">
-                    <div x-show="sliderIndex === index" x-transition:enter="transition ease-out duration-1000"
-                        x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                        x-transition:leave="transition ease-in duration-500" x-transition:leave-start="opacity-100"
-                        x-transition:leave-end="opacity-0" class="absolute inset-0 p-8 md:p-16">
-                        <div class="grid grid-cols-1 md:grid-cols-2 h-full gap-12 items-center">
-                            <div class="relative group h-full flex items-center justify-center">
-                                <div
-                                    class="absolute inset-0 bg-slate-50 rounded-3xl transition-transform group-hover:scale-105">
-                                </div>
-                                <img :src="product.image" :alt="product.name"
-                                    class="relative max-w-full max-h-[350px] object-contain drop-shadow-2xl transition-transform group-hover:-translate-y-4 duration-500">
-                                <!-- Wishlist Button -->
-                                <button @click.stop="toggleWishlist(product)"
-                                    class="absolute top-8 right-8 p-3 bg-white/80 glass rounded-full hover:text-red-500 transition-all shadow-lg z-10"
-                                    :class="isInWishlist(product.id) ? 'text-red-500 fill-red-500' : 'text-slate-600'">
-                                    <i data-lucide="heart" class="w-6 h-6"></i>
-                                </button>
-                            </div>
-                            <div class="space-y-6">
-                                <span
-                                    class="px-4 py-1.5 bg-blue-50 text-blue-600 rounded-full text-sm font-bold tracking-wider uppercase"
-                                    x-text="product.category"></span>
-                                <h3 class="text-4xl md:text-5xl font-black text-slate-900 leading-tight"
-                                    x-text="product.name"></h3>
-                                <p class="text-lg text-slate-500 leading-relaxed" x-text="product.description"></p>
-                                <div class="flex items-center gap-8">
-                                    <div class="text-4xl font-black text-blue-600" x-text="'£' + product.price"></div>
+                    <div x-show="sliderIndex === index" x-transition:enter="transition ease-out duration-700"
+                        x-transition:enter-start="opacity-0 translate-x-12"
+                        x-transition:enter-end="opacity-100 translate-x-0"
+                        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0" class="absolute inset-0 px-8 py-12 md:px-16 md:py-0">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 h-full gap-8 md:gap-16 items-center">
+                            <!-- Left: Tilted Image Card -->
+                            <div
+                                class="relative group h-full flex items-center justify-center md:justify-end pr-0 md:pr-12">
+                                <div class="relative w-full max-w-sm aspect-square">
                                     <div
-                                        class="flex items-center gap-2 bg-slate-50 border border-slate-100 px-4 py-2 rounded-xl">
-                                        <i data-lucide="star" class="w-5 h-5 text-amber-400 fill-amber-400"></i>
-                                        <span class="text-lg font-bold text-slate-900" x-text="product.rating"></span>
+                                        class="absolute inset-0 bg-white rounded-[2.5rem] shadow-2xl transform -rotate-6 transition-transform duration-500 group-hover:-rotate-2">
                                     </div>
+                                    <div
+                                        class="absolute inset-0 flex items-center justify-center p-8 transform transition-transform duration-500 group-hover:scale-105">
+                                        <img :src="product.image" :alt="product.name"
+                                            class="max-w-full max-h-full object-contain drop-shadow-xl">
+                                    </div>
+                                    <!-- Wishlist Button -->
+                                    <button @click.stop="toggleWishlist(product)"
+                                        class="absolute top-6 right-6 p-3 bg-white rounded-full hover:text-red-500 transition-all shadow-md z-20 group-hover:scale-110"
+                                        :class="isInWishlist(product.id) ? 'text-red-500 fill-red-500' : 'text-slate-300'">
+                                        <i data-lucide="heart" class="w-5 h-5"></i>
+                                    </button>
                                 </div>
-                                <div class="flex flex-wrap gap-4 pt-4">
+                            </div>
+
+                            <!-- Right: Content -->
+                            <div class="space-y-6 text-center md:text-left z-10">
+                                <div>
+                                    <span
+                                        class="inline-block px-4 py-1.5 bg-[#0b6e4b] text-white/90 rounded-full text-xs font-bold tracking-widest uppercase mb-4 shadow-sm border border-emerald-600/50">
+                                        Combo Saver
+                                    </span>
+                                    <h3 class="text-4xl md:text-6xl font-bold text-white leading-tight"
+                                        x-text="product.name"></h3>
+                                </div>
+
+                                <p class="text-lg text-emerald-100 leading-relaxed max-w-md mx-auto md:mx-0"
+                                    x-text="product.description"></p>
+
+                                <div
+                                    class="flex flex-col md:flex-row items-center gap-4 pt-2 justify-center md:justify-start">
                                     <button
-                                        class="bg-slate-900 text-white px-8 py-4 rounded-2xl hover:bg-slate-800 transition-all font-bold shadow-xl shadow-slate-900/10">View
-                                        Details</button>
-                                    <button @click="addToCart(product)"
-                                        class="bg-blue-600 text-white px-8 py-4 rounded-2xl hover:bg-blue-700 transition-all font-bold shadow-xl shadow-blue-500/20">Add
-                                        to Cart</button>
+                                        class="bg-white text-[#0F8A5F] px-8 py-3.5 rounded-xl hover:bg-emerald-50 transition-all font-bold shadow-lg flex items-center gap-2 group-hover:shadow-xl">
+                                        <span>Quench Thirst</span>
+                                        <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                    </button>
+                                    <div class="text-white/80 font-medium text-sm flex items-center gap-1">
+                                        <i data-lucide="star" class="w-4 h-4 fill-amber-400 text-amber-400"></i>
+                                        <span x-text="product.rating"></span> Rating
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -315,24 +541,13 @@
                 </template>
             </div>
 
-            <!-- Controls -->
-            <div
-                class="absolute bottom-6 left-1/2 -translate-x-1/2 md:left-16 md:translate-x-0 bottom-8 md:bottom-10 flex items-center gap-4 z-10">
-                <button @click="prev()"
-                    class="w-12 h-12 bg-white/90 glass border border-slate-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-lg text-slate-900">
-                    <i data-lucide="chevron-left" class="w-6 h-6"></i>
-                </button>
-                <div class="flex gap-2">
-                    <template x-for="(p, i) in sliderProducts" :key="i">
-                        <button @click="sliderIndex = i"
-                            :class="sliderIndex === i ? 'bg-blue-600 w-10' : 'bg-slate-200 hover:bg-slate-300 w-3'"
-                            class="h-1.5 rounded-full transition-all duration-500"></button>
-                    </template>
-                </div>
-                <button @click="next()"
-                    class="w-12 h-12 bg-white/90 glass border border-slate-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-lg text-slate-900">
-                    <i data-lucide="chevron-right" class="w-6 h-6"></i>
-                </button>
+            <!-- Controls (Bottom Right) -->
+            <div class="absolute bottom-8 right-8 md:right-16 flex items-center gap-2 z-20">
+                <template x-for="(p, i) in sliderProducts" :key="i">
+                    <button @click="sliderIndex = i"
+                        :class="sliderIndex === i ? 'bg-white w-8' : 'bg-emerald-700/50 hover:bg-emerald-600 w-2'"
+                        class="h-2 rounded-full transition-all duration-300"></button>
+                </template>
             </div>
         </div>
     </section>
@@ -368,17 +583,116 @@
     <!-- Product Sections Generic Template -->
     <template x-for="section in [
         { title: 'Fresh Produce', data: 'freshProduce', color: 'green', id: 'fresh-produce' },
-        { title: 'Grocery & Staples', data: 'groceryStaples', color: 'amber', id: 'grocery-staples' },
-        { title: 'Spices & Masala', data: 'spicesMasala', color: 'red', id: 'spices-masala' },
-        { title: 'Dairy Products', data: 'dairyProducts', color: 'blue', id: 'dairy-products' },
-        { title: 'Meat & Frozen Foods', data: 'meatFrozen', color: 'rose', id: 'meat-frozen' },
-        { title: 'Packaged & Canned Foods', data: 'packagedCanned', color: 'orange', id: 'packaged-canned' },
-        { title: 'Snacks & Bakery', data: 'snacksBakery', color: 'yellow', id: 'snacks-bakery' },
-        { title: 'Beverages', data: 'beverages', color: 'teal', id: 'beverages' },
-        { title: 'Household & Cleaning', data: 'householdCleaning', color: 'slate', id: 'household-cleaning' },
-        { title: 'Personal Care', data: 'personalCare', color: 'purple', id: 'personal-care' }
+        { title: 'Pakistani Product', data: 'pakistaniProducts', color: 'green', id: 'pakistani-products' },
+        { title: 'Indian Product', data: 'indianProducts', color: 'orange', id: 'indian-products' },
+        { title: 'African Product', data: 'africanProducts', color: 'yellow', id: 'african-products' },
+        { title: 'Phillipian Product', data: 'filipinoProducts', color: 'blue', id: 'filipino-products' },
+    { title: 'Grocery & Staples', data: 'groceryStaples', color: 'amber', id: 'grocery-staples' },
+    { title: 'Spices & Masala', data: 'spicesMasala', color: 'red', id: 'spices-masala' },
+    { title: 'Dairy Products', data: 'dairyProducts', color: 'blue', id: 'dairy-products' },
+    { title: 'Meat & Frozen Foods', data: 'meatFrozen', color: 'rose', id: 'meat-frozen' },
+    { title: 'Packaged & Canned Foods', data: 'packagedCanned', color: 'orange', id: 'packaged-canned' },
+    { title: 'Snacks & Bakery', data: 'snacksBakery', color: 'yellow', id: 'snacks-bakery' },
+    { title: 'Beverages', data: 'beverages', color: 'teal', id: 'beverages' },
+    { title: 'Household & Cleaning', data: 'householdCleaning', color: 'slate', id: 'household-cleaning' },
+    { title: 'Personal Care', data: 'personalCare', color: 'purple', id: 'personal-care' }
     ]" :key="section.title">
         <div>
+            <!-- Banner Before Pakistani Products -->
+
+
+            <!-- Banner Before Indian Products -->
+            <template x-if="section.id === 'indian-products'">
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <div
+                        class="relative bg-[#EA580C] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-orange-900/20 px-8 py-12 md:px-16 md:py-12 min-h-[400px] flex items-center">
+                        <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8 md:gap-16 items-center">
+                            <!-- Left: Tilted Image Card -->
+                            <div class="relative h-full flex items-center justify-center md:justify-end pr-0 md:pr-12">
+                                <div
+                                    class="relative w-full max-w-xs aspect-square transform transition-transform hover:scale-105 duration-500">
+                                    <div
+                                        class="absolute inset-0 bg-white rounded-[2.5rem] shadow-2xl transform -rotate-6">
+                                    </div>
+                                    <div class="absolute inset-0 flex items-center justify-center p-8">
+                                        <img src="images/masala-box.jpg" alt="Indian Spices"
+                                            class="max-w-full max-h-full object-contain drop-shadow-xl">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Content -->
+                            <div class="space-y-6 text-center md:text-left z-10">
+                                <div>
+                                    <span
+                                        class="inline-block px-4 py-1.5 bg-[#9a3412] text-white/90 rounded-full text-xs font-bold tracking-widest uppercase mb-4 shadow-sm border border-orange-600/50">
+                                        Flavor Explosion
+                                    </span>
+                                    <h3 class="text-4xl md:text-6xl font-bold text-white leading-tight">Indian
+                                        Products</h3>
+                                </div>
+
+                                <p class="text-lg text-orange-100 leading-relaxed max-w-md mx-auto md:mx-0">
+                                    Authentic spices and ingredients for the perfect curry.
+                                </p>
+
+                                <button
+                                    class="bg-white text-[#EA580C] px-8 py-3.5 rounded-xl hover:bg-orange-50 transition-all font-bold shadow-lg flex items-center gap-2 mx-auto md:mx-0 hover:shadow-xl">
+                                    <span>Shop Now</span>
+                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </template>
+
+            <!-- Banner Before African Products -->
+            <template x-if="section.id === 'african-products'">
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                    <div
+                        class="relative bg-[#CA8A04] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-yellow-900/20 px-8 py-12 md:px-16 md:py-12 min-h-[400px] flex items-center">
+                        <div class="grid grid-cols-1 md:grid-cols-2 w-full gap-8 md:gap-16 items-center">
+                            <!-- Left: Tilted Image Card -->
+                            <div class="relative h-full flex items-center justify-center md:justify-end pr-0 md:pr-12">
+                                <div
+                                    class="relative w-full max-w-xs aspect-square transform transition-transform hover:scale-105 duration-500">
+                                    <div
+                                        class="absolute inset-0 bg-white rounded-[2.5rem] shadow-2xl transform -rotate-6">
+                                    </div>
+                                    <div class="absolute inset-0 flex items-center justify-center p-8">
+                                        <img src="images/whole-wheat-flour.png" alt="African Flavors"
+                                            class="max-w-full max-h-full object-contain drop-shadow-xl">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right: Content -->
+                            <div class="space-y-6 text-center md:text-left z-10">
+                                <div>
+                                    <span
+                                        class="inline-block px-4 py-1.5 bg-[#854d0e] text-white/90 rounded-full text-xs font-bold tracking-widest uppercase mb-4 shadow-sm border border-yellow-700/50">
+                                        Taste of Africa
+                                    </span>
+                                    <h3 class="text-4xl md:text-6xl font-bold text-white leading-tight">African
+                                        Products</h3>
+                                </div>
+
+                                <p class="text-lg text-yellow-50 leading-relaxed max-w-md mx-auto md:mx-0">
+                                    Discover the bold and vibrant flavors of the African continent.
+                                </p>
+
+                                <button
+                                    class="bg-white text-[#CA8A04] px-8 py-3.5 rounded-xl hover:bg-yellow-50 transition-all font-bold shadow-lg flex items-center gap-2 mx-auto md:mx-0 hover:shadow-xl">
+                                    <span>Shop Now</span>
+                                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </template>
+
             <section :id="section.id" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 overflow-hidden scroll-mt-24">
                 <div class="flex items-end justify-between mb-12">
                     <div class="space-y-2">
@@ -534,7 +848,8 @@
                                                 class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest w-fit border border-white/30"
                                                 x-text="promo.discount"></span>
                                             <h2 class="text-4xl md:text-5xl font-black leading-tight"
-                                                x-text="promo.title"></h2>
+                                                x-text="promo.title">
+                                            </h2>
                                             <p class="text-lg text-white/90 max-w-sm" x-text="promo.desc"></p>
                                             <button
                                                 class="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition shadow-lg w-fit flex items-center gap-2 group">
@@ -586,7 +901,8 @@
                                                 class="inline-block px-4 py-1.5 bg-slate-900/30 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest w-fit border border-white/20"
                                                 x-text="promo.discount"></span>
                                             <h2 class="text-4xl md:text-5xl font-black leading-tight"
-                                                x-text="promo.title"></h2>
+                                                x-text="promo.title">
+                                            </h2>
                                             <p class="text-lg text-white/90 max-w-sm" x-text="promo.desc"></p>
                                             <button
                                                 class="px-8 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition shadow-lg w-fit flex items-center gap-2 group">
@@ -649,7 +965,8 @@
                                                 class="inline-block px-4 py-1.5 bg-black/20 backdrop-blur-sm rounded-full text-xs font-bold uppercase tracking-widest w-fit border border-white/30"
                                                 x-text="promo.discount"></span>
                                             <h2 class="text-4xl md:text-5xl font-black leading-tight"
-                                                x-text="promo.title"></h2>
+                                                x-text="promo.title">
+                                            </h2>
                                             <p class="text-lg text-white/90 max-w-sm" x-text="promo.desc"></p>
                                             <button
                                                 class="px-8 py-3 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition shadow-lg w-fit flex items-center gap-2 group">
@@ -856,6 +1173,23 @@
                         Experience the zenith of premium delivery. We curate the world's finest goods for those who
                         demand excellence in every detail.
                     </p>
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-3 text-slate-400 group">
+                            <div
+                                class="p-2 bg-white/5 border border-white/10 rounded-lg group-hover:bg-blue-600/10 group-hover:border-blue-500/20 transition-colors">
+                                <i data-lucide="map-pin" class="w-5 h-5 shrink-0 text-blue-500"></i>
+                            </div>
+                            <span class="mt-1.5 font-medium">32-34 Bedford Street, <br>LL18 1SY</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-slate-400 group">
+                            <div
+                                class="p-2 bg-white/5 border border-white/10 rounded-lg group-hover:bg-blue-600/10 group-hover:border-blue-500/20 transition-colors">
+                                <i data-lucide="mail" class="w-5 h-5 shrink-0 text-blue-500"></i>
+                            </div>
+                            <a href="mailto:Walesuperstore77@gmail.com"
+                                class="font-medium hover:text-blue-400 transition-colors">Walesuperstore77@gmail.com</a>
+                        </div>
+                    </div>
                     <div class="flex gap-4">
                         <template x-for="icon in ['instagram', 'twitter', 'facebook', 'linkedin']" :key="icon">
                             <a href="#"
