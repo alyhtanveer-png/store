@@ -12,6 +12,7 @@ document.addEventListener('alpine:init', () => {
         sliderIndex: 0,
         heroSliderIndex: 0,
         dropdownOpen: false,
+        searchOpen: false,
 
         // Data Arrays
         heroSlides: [

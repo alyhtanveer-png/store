@@ -597,6 +597,10 @@
                 grid-template-columns: 1fr;
             }
 
+            .analytics-grid {
+                grid-template-columns: 1fr !important;
+            }
+
             .sidebar-overlay {
                 display: none;
                 position: fixed;
@@ -662,9 +666,8 @@
 
     <!-- Login Screen -->
     <div id="login-overlay">
-        <div class="login-card" style="width: 500px;margin: auto;">
-            <h2
-                style="text-align:center;margin: auto; margin-bottom:20px; color:var(--text-dark);width: 500px;margin-top: 5rem;">
+        <div class="login-card" style="width: 100%; max-width: 450px; margin: auto;">
+            <h2 style="text-align:center; margin-bottom:20px; color:var(--text-dark); margin-top: 5rem;">
                 Admin Login</h2>
             <form id="login-form">
                 <div class="form-group" style="width: 60%; display: block;margin: auto;">
@@ -676,7 +679,7 @@
                     <input type="password" class="form-control" id="password" placeholder="admin123">
                 </div>
                 <button type="submit" class="btn btn-primary"
-                    style="width:20%; margin: auto;text-align: center;display: block;margin-top: 1rem;">Login</button>
+                    style="width: 100%; max-width: 200px; margin: auto; text-align: center; display: block; margin-top: 1rem;">Login</button>
             </form>
         </div>
     </div>
@@ -1027,7 +1030,7 @@
 
             <!-- Analytics Tab -->
             <div id="tab-analytics" class="admin-tab" style="display:none;">
-                <div class="analytics-grid" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div class="analytics-grid">
                     <div class="card">
                         <h3>Revenue Overview</h3>
                         <div style="height: 300px;">
