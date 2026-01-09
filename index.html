@@ -42,9 +42,9 @@
                             style="border-radius: 1000px; filter: grayscale(100%) sepia(100%) hue-rotate(190deg) saturate(500%) contrast(120%);">
                         <div class="flex flex-col">
                             <span
-                                class="text-lg md:text-xl font-black text-blue-600 tracking-tight leading-none transition-colors">Super</span>
+                                class="text-lg md:text-xl font-black text-red-600 tracking-tight leading-none transition-colors">Super</span>
                             <span
-                                class="text-[10px] md:text-sm font-bold text-blue-600 tracking-widest uppercase leading-none">Store</span>
+                                class="text-[10px] md:text-sm font-bold text-red-600 tracking-widest uppercase leading-none">Store</span>
                         </div>
                     </a>
 
@@ -83,9 +83,40 @@
 
                         <!-- User Actions -->
                         <div class="flex items-center gap-4">
-                            <a href="#" class="p-2 text-slate-500 hover:text-slate-900 transition-colors">
-                                <i data-lucide="user" class="w-6 h-6"></i>
-                            </a>
+                            <!-- User/Login Links -->
+                            <template x-if="!isLoggedIn">
+                                <a href="login.html"
+                                    class="p-2 text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-2 group">
+                                    <i data-lucide="user" class="w-6 h-6"></i>
+                                    <span
+                                        class="hidden lg:block text-sm font-bold uppercase tracking-wider">Login</span>
+                                </a>
+                            </template>
+                            <template x-if="isLoggedIn">
+                                <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                                    <button @click="open = !open"
+                                        class="flex items-center gap-2 p-1.5 hover:bg-slate-100 rounded-xl transition-all">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold overflow-hidden">
+                                            <span x-text="user.name.charAt(0)"></span>
+                                        </div>
+                                        <span class="hidden lg:block text-xs font-black text-slate-700 uppercase"
+                                            x-text="user.name"></span>
+                                        <i data-lucide="chevron-down" class="w-3 h-3 text-slate-400"></i>
+                                    </button>
+                                    <div x-show="open" x-transition
+                                        class="absolute top-full right-0 w-48 mt-2 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50">
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">My
+                                            Profile</a>
+                                        <a href="#"
+                                            class="block px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 font-medium">Orders</a>
+                                        <div class="border-t border-slate-50 my-1"></div>
+                                        <button @click="logout()"
+                                            class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 font-bold">Logout</button>
+                                    </div>
+                                </div>
+                            </template>
                             <button @click="wishlistDrawerOpen = true"
                                 class="relative p-2 text-slate-500 hover:text-red-500 transition-colors">
                                 <i data-lucide="heart" class="w-6 h-6"></i>
@@ -1501,10 +1532,28 @@
                                 class="flex items-center gap-3 px-3 py-4 rounded-2xl bg-slate-50 text-blue-600 font-bold">
                                 <i data-lucide="home" class="w-5 h-5"></i> Home
                             </a>
-                            <a href="login.html"
-                                class="flex items-center gap-3 px-3 py-4 rounded-2xl text-slate-600 font-bold hover:bg-slate-50 transition-colors">
-                                <i data-lucide="user" class="w-5 h-5"></i> My Account
-                            </a>
+                            <template x-if="!isLoggedIn">
+                                <a href="login.html"
+                                    class="flex items-center gap-3 px-3 py-4 rounded-2xl text-slate-600 font-bold hover:bg-slate-50 transition-colors">
+                                    <i data-lucide="user" class="w-5 h-5"></i> Login / Sign Up
+                                </a>
+                            </template>
+                            <template x-if="isLoggedIn">
+                                <div class="space-y-1">
+                                    <div
+                                        class="flex items-center gap-3 px-3 py-4 rounded-2xl bg-blue-50 text-blue-600 font-bold">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                                            <span x-text="user.name.charAt(0)"></span>
+                                        </div>
+                                        <span x-text="user.name"></span>
+                                    </div>
+                                    <button @click="logout()"
+                                        class="w-full flex items-center gap-3 px-3 py-4 rounded-2xl text-red-600 font-bold hover:bg-red-50 transition-colors">
+                                        <i data-lucide="log-out" class="w-5 h-5"></i> Logout
+                                    </button>
+                                </div>
+                            </template>
                         </nav>
                     </div>
 

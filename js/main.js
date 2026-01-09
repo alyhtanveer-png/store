@@ -82,6 +82,13 @@ document.addEventListener('alpine:init', () => {
 
         init() {
             this.isAdminLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+            this.isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            if (this.isLoggedIn) {
+                const storedUser = localStorage.getItem('user');
+                if (storedUser) {
+                    this.user = JSON.parse(storedUser);
+                }
+            }
 
 
 
@@ -310,6 +317,48 @@ document.addEventListener('alpine:init', () => {
             el.textContent = message;
             document.body.appendChild(el);
             setTimeout(() => el.remove(), 3000);
+        },
+        isInWishlist(id) {
+            return this.wishlist.some(item => item.id === id);
+        }
+    }));
+
+    Alpine.data('loginPage', () => ({
+        email: '',
+        password: '',
+        loading: false,
+        error: '',
+
+        handleSubmit() {
+            this.loading = true;
+            this.error = '';
+
+            setTimeout(() => {
+                if (this.email === 'user@example.com' && this.password === 'password123') {
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('user', JSON.stringify({ name: 'Demo User', email: this.email }));
+                    window.location.href = 'index.html';
+                } else {
+                    this.error = 'Invalid email or password. Use the demo credentials.';
+                    this.loading = false;
+                }
+            }, 1000);
+        }
+    }));
+
+    Alpine.data('signupPage', () => ({
+        name: '',
+        email: '',
+        password: '',
+        loading: false,
+
+        handleSubmit() {
+            this.loading = true;
+            setTimeout(() => {
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('user', JSON.stringify({ name: this.name, email: this.email }));
+                window.location.href = 'index.html';
+            }, 1500);
         }
     }));
 });
